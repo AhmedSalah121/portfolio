@@ -64,6 +64,7 @@ function App() {
           phone='+20 1121097405'
           email='ahmedsalahabdellatif@gmail.com'
           location='15th of May City Cairo, Egypt'
+          resumeUrl='https://drive.google.com/file/d/1N-J16liJyBO3N4gKTGaxTSpsN0a-pk-L/view'
           socialLinks={{
             linkedin: 'https://linkedin.com/in/ahmedsalah121',
             github: 'https://github.com/AhmedSalah121',

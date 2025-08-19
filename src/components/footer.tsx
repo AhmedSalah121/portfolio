@@ -6,6 +6,7 @@ interface FooterProps {
   phone?: string;
   email?: string;
   location?: string;
+  resumeUrl?: string;
   socialLinks?: {
     linkedin?: string;
     github?: string;
@@ -19,6 +20,7 @@ function Footer({
   phone,
   email,
   location,
+  resumeUrl,
   socialLinks = {},
 }: FooterProps) {
   return (
@@ -55,6 +57,16 @@ function Footer({
         <div className={classes.footerSection}>
           <h3 className={classes.footerTitle}>Connect With Me</h3>
           <div className={classes.socialLinks}>
+            {resumeUrl && (
+              <a
+                href={resumeUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+                className={classes.socialLink}
+              >
+                Download Resume
+              </a>
+            )}
             {socialLinks.linkedin && (
               <a
                 href={socialLinks.linkedin}
