@@ -85,6 +85,13 @@ function Footer({
                 Leetcode
               </a>
             )}
+            <a
+              href='/resume.pdf'
+              download='Ahmed_Salah_Resume.pdf'
+              className={classes.socialLink}
+            >
+              Download Resume
+            </a>
           </div>
         </div>
 
