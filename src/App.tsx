@@ -1,8 +1,8 @@
-import NavBar from './componenets/nav-bar';
+import NavBar from './components/nav-bar';
 import classes from './App.module.css';
-import Footer from './componenets/footer';
-import ImageCard from './componenets/image-card';
-import TechStack from './componenets/tech-stack';
+import Footer from './components/footer';
+import ImageCard from './components/image-card';
+import TechStack from './components/tech-stack';
 
 function App() {
   return (
