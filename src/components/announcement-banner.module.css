@@ -1,0 +1,113 @@
+.bannerContainer {
+  position: relative;
+  width: 100%;
+  margin: 3rem 0;
+  background: linear-gradient(90deg, 
+    rgba(15, 23, 42, 0.6) 0%, 
+    rgba(30, 41, 59, 0.8) 50%, 
+    rgba(15, 23, 42, 0.6) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  height: 45px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.bannerContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.scrollingText {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: smoothScroll 50s linear infinite;
+  gap: 6rem;
+  transform: translateZ(0); /* Enable hardware acceleration */
+  will-change: transform;
+}
+
+.textItem {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.textItem:hover {
+  opacity: 1;
+}
+
+@keyframes smoothScroll {
+  0% {
+    transform: translateX(20%) translateZ(0);
+  }
+  100% {
+    transform: translateX(-100%) translateZ(0);
+  }
+}
+
+.bannerContainer:hover .scrollingText {
+  animation-play-state: unset;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .bannerContainer {
+    height: 38px;
+    margin: 2rem 0;
+    border-radius: 0.75rem;
+  }
+  
+  .textItem {
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
+  
+  .scrollingText {
+    animation-duration: 40s;
+    gap: 4rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .bannerContainer {
+    height: 42px;
+  }
+  
+  .textItem {
+    font-size: 0.85rem;
+  }
+  
+  .scrollingText {
+    animation-duration: 45s;
+    gap: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bannerContainer {
+    height: 50px;
+  }
+  
+  .textItem {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+  }
+  
+  .scrollingText {
+    animation-duration: 60s;
+    gap: 8rem;
+  }
+}
