@@ -1,4 +1,5 @@
 import NavBar from './components/nav-bar';
+import AnnouncementBanner from './components/announcement-banner';
 import classes from './App.module.css';
 import Footer from './components/footer';
 import ImageCard from './components/image-card';
@@ -8,7 +9,7 @@ function App() {
   return (
     <div className={classes.main}>
       <NavBar />
-      
+
       <section id="lore">
         <ImageCard
           images={[
@@ -60,7 +61,7 @@ function App() {
       <section id="about">
         <Footer
           name='Ahmed Salah'
-          title='FullStack Developer'
+          title='Full Stack Software Engineer'
           phone='+20 1121097405'
           email='ahmedsalahabdellatif@gmail.com'
           location='15th of May City Cairo, Egypt'
@@ -71,6 +72,7 @@ function App() {
             leetcode: 'https://leetcode.com/u/AhmedSalah121',
           }}
         />
+        <AnnouncementBanner />
       </section>
     </div>
   );
