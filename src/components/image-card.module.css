@@ -1,4 +1,3 @@
-/* --- Layout variations --- */
 .portfolioImageCardHorizontal {
   display: flex;
   flex-direction: row;
@@ -15,7 +14,6 @@
   max-width: 100%;
 }
 
-/* --- Image container --- */
 .portfolioImageContainerHorizontal {
     width: 35%;
     height: auto;
@@ -28,9 +26,9 @@
 }
 
 .portfolioImageContainerMobile {
-    width: 25%;
+    width: 20%;
     height: auto;
-    min-height: 300px;
+    min-height: 250px;
     flex-shrink: 0;
     overflow: hidden;
     position: relative;
@@ -83,19 +81,19 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 0; /* Allow content to shrink */
+  min-height: 0;
   overflow-y: auto;
 }
 
 .portfolioContentContainerMobile {
-  width: 75%;  /* More space for content when image is narrower */
+  width: 75%;
   padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 0; /* Allow content to shrink */
-  overflow-y: auto; /* Allow scrolling for very long content */
+  min-height: 0;
+  overflow-y: auto;
 }
 
 /* --- Text --- */
@@ -126,8 +124,6 @@
 /* Base styles (mobile-first)    */
 /* ============================= */
 
-/* Remove conflicting styles - these are handled by the base container styles above */
-
 /* Images inside containers */
 .portfolioCardImage,
 .portfolioCardImageMobile {
@@ -150,26 +146,52 @@
   }
 
   .portfolioImageContainerMobile {
-    width: 60%; /* slightly smaller so it fits better */
+    width: 50%;
     margin: 0 auto;
-    min-height: 250px;
+    min-height: 200px;
   }
 
   .portfolioImageContainerHorizontal {
     width: 100%;
-    min-height: 160px;  /* Reduced from 200px to prevent empty space on mobile */
+    min-height: 160px;
+    max-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .portfolioCardImage {
+    object-fit: contain;
+    object-position: center;
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
   }
 
   .portfolioContentContainerHorizontal,
   .portfolioContentContainerMobile {
     padding: 1rem;
     width: 100%;
-    max-height: none; /* Remove height constraints on mobile */
+    max-height: none;
     overflow-y: visible; /* No scrolling on mobile */
   }
 
+  .slideShowContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slideShowWrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
   .portfolioCardTitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 0.75rem;
   }
 
@@ -188,30 +210,57 @@
   }
 
   .portfolioImageContainerMobile {
-    width: 65%;
+    width: 55%;
     margin: 0 auto;
-    min-height: 280px;
+    min-height: 220px;
   }
 
   .portfolioImageContainerHorizontal {
     width: 100%;
-    min-height: 180px;  /* Reduced from 220px for better mobile proportions */
+    min-height: 180px;
+    max-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  
+  .portfolioCardImage {
+    object-fit: contain;
+    object-position: center;
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
   }
 
   .portfolioContentContainerHorizontal,
   .portfolioContentContainerMobile {
     padding: 1.25rem;
     width: 100%;
-    max-height: none; /* Remove height constraints */
+    max-height: none;
     overflow-y: visible;
   }
 
+  .slideShowContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slideShowWrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
   .portfolioCardTitle {
-    font-size: 1.15rem;
+    font-size: 1.125rem;
   }
 
   .portfolioCardDescription {
-    font-size: 0.9rem;
+    font-size: 0.9375rem;
   }
 }
 
@@ -227,7 +276,7 @@
   }
 
   .portfolioImageContainerMobile {
-    width: 32%;
+    width: 28%;
   }
 
   .portfolioContentContainerHorizontal {
@@ -236,7 +285,7 @@
   }
 
   .portfolioContentContainerMobile {
-    width: 68%;
+    width: 72%;
     padding: 1.5rem;
   }
 }
@@ -245,17 +294,14 @@
 @media (min-width: 1024px) {
   .portfolioImageContainerHorizontal {
     width: 40%;
-    min-height: 350px;  /* Increased for better desktop screenshot display */
-    /* Remove fixed height - let it grow with content */
+    min-height: 350px;
   }
 
   .portfolioImageContainerMobile {
-    width: 28%;
-    min-height: 450px;
-    /* Remove fixed height - let it grow with content */
+    width: 24%;
+    min-height: 380px;
   }
 
-  /* Ensure slideshow components use full container space */
   .slideShowContainer {
     height: 100%;
     min-height: inherit;
@@ -266,20 +312,16 @@
     min-height: inherit;
   }
 
-  /* Improve content container for desktop */
   .portfolioContentContainerHorizontal {
     padding: 2rem;
     width: 60%;
-    /* Remove max-height constraint */
   }
 
   .portfolioContentContainerMobile {
     padding: 2rem;
-    width: 72%;
-    /* Remove max-height constraint */
+    width: 76%;
   }
 
-  /* Better title sizing for desktop */
   .portfolioCardTitle {
     font-size: clamp(1.25rem, 2.5vw, 1.5rem);
     margin-bottom: 1rem;
@@ -288,23 +330,5 @@
   .portfolioCardDescription {
     font-size: clamp(0.9rem, 1.5vw, 1rem);
     line-height: 1.6;
-  }
-
-  .indicator {
-    width: 7px;
-    height: 7px;
-  }
-}
-
-/* Mobile slideshow dots */
-@media (max-width: 768px) {
-  .slideIndicators {
-    bottom: 0.5rem;
-    gap: 0.25rem;
-  }
-
-  .indicator {
-    width: 6px;
-    height: 6px;
   }
 }
