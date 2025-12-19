@@ -24,7 +24,7 @@ function Footer({
   socialLinks = {},
 }: FooterProps) {
   return (
-    <footer id="contact" className={classes.footer}>
+    <footer id='contact' className={classes.footer}>
       <div className={classes.footerContainer}>
         <div className={classes.footerSection}>
           <h3 className={classes.footerTitle}>Contact Info</h3>
@@ -103,8 +103,9 @@ function Footer({
         <div className={classes.footerSection}>
           <h3 className={classes.footerTitle}>About</h3>
           <p className={classes.aboutText}>
-            Passionate Backend Software Engineer who is taking a big footstep into
-            being a Fullstack Software Engineer. Always eager to take on new challenges.
+            Passionate Backend Software Engineer who is taking a big footstep
+            into being a Fullstack Software Engineer. Always eager to take on
+            new challenges.
           </p>
         </div>
         <div className={classes.footerSection}>
