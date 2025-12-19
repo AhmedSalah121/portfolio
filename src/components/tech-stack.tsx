@@ -42,6 +42,10 @@ function TechStack({ title = 'Tech Stack' }: TechStackProps) {
       icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
     },
     {
+      name: 'NestJS',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg',
+    },
+    {
       name: 'Firebase',
       icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg',
     },

@@ -10,7 +10,7 @@ function App() {
     <div className={classes.main}>
       <NavBar />
 
-      <section id="lore">
+      <section id='lore'>
         <ImageCard
           images={[
             './iorto1.jpeg',
@@ -53,12 +53,12 @@ function App() {
       </section>
 
       {/* Tech Stack Section */}
-      <section id="techstack">
+      <section id='techstack'>
         <TechStack />
       </section>
 
       {/* About & Contact Section (Footer) */}
-      <section id="about">
+      <section id='about'>
         <Footer
           name='Ahmed Salah'
           title='Full Stack Software Engineer'

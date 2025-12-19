@@ -4,7 +4,10 @@ import classes from './nav-bar.module.css';
 function NavBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
     e.preventDefault();
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
@@ -25,20 +28,23 @@ function NavBar() {
     <>
       <header className={classes.navbar}>
         <ul className={classes.links}>
-          <a href='#lore' onClick={(e) => handleSmoothScroll(e, 'lore')}>
+          <a href='#lore' onClick={e => handleSmoothScroll(e, 'lore')}>
             Lore
           </a>
-          <a href='#techstack' onClick={(e) => handleSmoothScroll(e, 'techstack')}>
+          <a
+            href='#techstack'
+            onClick={e => handleSmoothScroll(e, 'techstack')}
+          >
             Tech Stack
           </a>
-          <a href='#about' onClick={(e) => handleSmoothScroll(e, 'about')}>
+          <a href='#about' onClick={e => handleSmoothScroll(e, 'about')}>
             About
           </a>
-          <a href='#contact' onClick={(e) => handleSmoothScroll(e, 'contact')}>
+          <a href='#contact' onClick={e => handleSmoothScroll(e, 'contact')}>
             Contact
           </a>
         </ul>
-        
+
         {/* Desktop socials */}
         <div className={classes.socials}>
           <a
@@ -65,19 +71,27 @@ function NavBar() {
         </div>
 
         {/* Mobile hamburger button */}
-        <button 
-          className={classes.hamburger} 
+        <button
+          className={classes.hamburger}
           onClick={toggleSidebar}
-          aria-label="Toggle menu"
+          aria-label='Toggle menu'
         >
-          <span className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}></span>
-          <span className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}></span>
-          <span className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}></span>
+          <span
+            className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}
+          ></span>
+          <span
+            className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}
+          ></span>
+          <span
+            className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}
+          ></span>
         </button>
       </header>
 
       {/* Mobile sidebar */}
-      <div className={`${classes.sidebar} ${isSidebarOpen ? classes.sidebarOpen : ''}`}>
+      <div
+        className={`${classes.sidebar} ${isSidebarOpen ? classes.sidebarOpen : ''}`}
+      >
         <div className={classes.sidebarContent}>
           <div className={classes.sidebarSocials}>
             <a
@@ -113,8 +127,8 @@ function NavBar() {
 
       {/* Overlay */}
       {isSidebarOpen && (
-        <div 
-          className={classes.overlay} 
+        <div
+          className={classes.overlay}
           onClick={() => setIsSidebarOpen(false)}
         ></div>
       )}
