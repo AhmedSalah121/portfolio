@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react';
+import type { Experience } from '../data/experience';
 import classes from './image-card.module.css';
 
-interface ImageCardProps {
-  images: string[];
-  title: string;
-  description: string;
-  layout?: 'left' | 'right';
-  autoSlide?: boolean;
-  slideInterval?: number;
-  screenshotType?: 'mobile' | 'desktop';
-}
+type ImageCardProps = Experience;
 
 function ImageCard({
+  role,
+  company,
+  dateRange,
+  summary,
+  achievements,
+  technologies,
+  fullDescription,
   images,
-  title,
-  description,
   layout = 'left',
   autoSlide = true,
   slideInterval = 4000,
@@ -55,29 +53,48 @@ function ImageCard({
       ? classes.portfolioContentContainerMobile
       : classes.portfolioContentContainerHorizontal;
 
-  const noImageClass =
-    layout === 'right'
-      ? classes.noImageCardReverse
-      : classes.noImageCard;
+  const renderContent = () => (
+    <>
+      <h3 className={classes.portfolioCardTitle}>{role}</h3>
+      <p className={classes.portfolioCardMeta}>
+        {company} · {dateRange}
+      </p>
+      <p className={classes.portfolioCardSummary}>{summary}</p>
+      <ul className={classes.achievementList}>
+        {achievements.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+      <div className={classes.techChips}>
+        {technologies.map((tech, index) => (
+          <span key={index} className={classes.chip}>
+            {tech}
+          </span>
+        ))}
+      </div>
+      <details className={classes.readMore}>
+        <summary>Read more</summary>
+        <p className={classes.fullDescription}>{fullDescription}</p>
+      </details>
+    </>
+  );
 
   if (!hasImages) {
+    const noImageClass =
+      layout === 'right' ? classes.noImageCardReverse : classes.noImageCard;
+
     return (
-      <div className={noImageClass}>
+      <article className={`${noImageClass} ${classes.cardSurface}`}>
         <div className={classes.noImagePlaceholder} aria-hidden='true'>
           <span className={classes.noImageIcon}>💼</span>
         </div>
-        <div className={classes.noImageContent}>
-          {title && <h3 className={classes.portfolioCardTitle}>{title}</h3>}
-          {description && (
-            <p className={classes.portfolioCardDescription}>{description}</p>
-          )}
-        </div>
-      </div>
+        <div className={classes.noImageContent}>{renderContent()}</div>
+      </article>
     );
   }
 
   return (
-    <div className={cardClass}>
+    <article className={`${cardClass} ${classes.cardSurface}`}>
       <div className={imageContainerClass}>
         <div className={classes.slideShowContainer}>
           <div
@@ -91,19 +108,14 @@ function ImageCard({
                 key={index}
                 src={image}
                 className={imageClass}
-                alt={`${title} - Image ${index + 1}`}
+                alt={`${role} at ${company} - screenshot ${index + 1}`}
               />
             ))}
           </div>
         </div>
       </div>
-      <div className={contentContainerClass}>
-        {title && <h3 className={classes.portfolioCardTitle}>{title}</h3>}
-        {description && (
-          <p className={classes.portfolioCardDescription}>{description}</p>
-        )}
-      </div>
-    </div>
+      <div className={contentContainerClass}>{renderContent()}</div>
+    </article>
   );
 }
 

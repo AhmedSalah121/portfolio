@@ -1,19 +1,15 @@
 .bannerContainer {
   position: relative;
   width: 100%;
-  margin: 3rem 0;
-  background: linear-gradient(90deg, 
-    rgba(15, 23, 42, 0.6) 0%, 
-    rgba(30, 41, 59, 0.8) 50%, 
-    rgba(15, 23, 42, 0.6) 100%
-  );
+  margin: var(--space-4) 0;
+  background: var(--surface);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   height: 45px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .bannerContent {
@@ -35,7 +31,7 @@
 }
 
 .textItem {
-  color: #e2e8f0;
+  color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 400;
   letter-spacing: 0.08em;
@@ -66,15 +62,14 @@
 @media (max-width: 639.98px) {
   .bannerContainer {
     height: 38px;
-    margin: 2rem 0;
-    border-radius: 0.75rem;
+    border-radius: var(--radius-md);
   }
-  
+
   .textItem {
     font-size: 0.8rem;
     letter-spacing: 0.06em;
   }
-  
+
   .scrollingText {
     animation-duration: 40s;
     gap: 4rem;
@@ -85,11 +80,11 @@
   .bannerContainer {
     height: 42px;
   }
-  
+
   .textItem {
     font-size: 0.85rem;
   }
-  
+
   .scrollingText {
     animation-duration: 45s;
     gap: 5rem;
@@ -100,12 +95,12 @@
   .bannerContainer {
     height: 50px;
   }
-  
+
   .textItem {
     font-size: 1rem;
     letter-spacing: 0.1em;
   }
-  
+
   .scrollingText {
     animation-duration: 60s;
     gap: 8rem;

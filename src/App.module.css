@@ -1,23 +1,26 @@
 .main {
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  width: 80%;
-  gap: 3rem;
-  margin: 0 auto;
-  padding: 2rem 0; /* Back to original padding */
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-6) 0 var(--space-8);
   min-height: 100dvh;
+}
+
+.section {
+  width: 100%;
 }
 
 .cardSeparator {
   position: relative;
   width: 70%;
   height: 2px;
-  margin: 3rem auto;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(99, 102, 241, 0.8) 15%, 
-    rgba(168, 85, 247, 0.9) 50%, 
-    rgba(99, 102, 241, 0.8) 85%, 
+  margin: var(--space-7) auto;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.8) 15%,
+    rgba(168, 85, 247, 0.9) 50%,
+    rgba(99, 102, 241, 0.8) 85%,
     transparent 100%
   );
   border-radius: 2px;
@@ -45,16 +48,18 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.2) 50%, 
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
     transparent 100%
   );
   animation: shimmer 3s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
@@ -77,4 +82,3 @@
     opacity: 0;
   }
 }
-

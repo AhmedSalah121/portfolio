@@ -1,18 +1,8 @@
+import { aboutText, educationText } from '../data/contact';
+import type { ContactInfo } from '../data/contact';
 import classes from './footer.module.css';
 
-interface FooterProps {
-  name?: string;
-  title?: string;
-  phone?: string;
-  email?: string;
-  location?: string;
-  resumeUrl?: string;
-  socialLinks?: {
-    linkedin?: string;
-    github?: string;
-    leetcode?: string;
-  };
-}
+type FooterProps = ContactInfo;
 
 function Footer({
   name,
@@ -21,10 +11,14 @@ function Footer({
   email,
   location,
   resumeUrl,
-  socialLinks = {},
+  socialLinks,
 }: FooterProps) {
   return (
     <footer id='contact' className={classes.footer}>
+      <header className='sectionHeader'>
+        <h2 className='sectionTitle'>Contact</h2>
+        <p className='sectionSubtitle'>Get in touch or connect on social platforms</p>
+      </header>
       <div className={classes.footerContainer}>
         <div className={classes.footerSection}>
           <h3 className={classes.footerTitle}>Contact Info</h3>
@@ -102,18 +96,11 @@ function Footer({
 
         <div id='about' className={classes.footerSection}>
           <h3 className={classes.footerTitle}>About</h3>
-          <p className={classes.aboutText}>
-            Passionate Backend Software Engineer who is taking a big footstep
-            into being a Fullstack Software Engineer. Always eager to take on
-            new challenges.
-          </p>
+          <p className={classes.aboutText}>{aboutText}</p>
         </div>
         <div className={classes.footerSection}>
           <h3 className={classes.footerTitle}>Extra</h3>
-          <p className={classes.aboutText}>
-            Graduated from Faculty of Science - Computer Science Department
-            January - 2025
-          </p>
+          <p className={classes.aboutText}>{educationText}</p>
         </div>
       </div>
 
