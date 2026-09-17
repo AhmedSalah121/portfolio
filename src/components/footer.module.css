@@ -1,19 +1,19 @@
 .footer {
   background: var(--surface);
   color: var(--text);
-  padding: var(--space-7) 0 var(--space-4);
-  margin-top: var(--space-4);
+  padding: var(--space-7) var(--space-6) var(--space-4);
+  margin-top: var(--space-6);
   width: 100%;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  border-bottom: none;
   box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
 }
 
 .footerContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-7);
   margin: 0 auto;
 }
 

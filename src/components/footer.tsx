@@ -1,5 +1,6 @@
 import { aboutText, educationText } from '../data/contact';
 import type { ContactInfo } from '../data/contact';
+import Reveal from './reveal';
 import classes from './footer.module.css';
 
 type FooterProps = ContactInfo;
@@ -20,8 +21,9 @@ function Footer({
         <p className='sectionSubtitle'>Get in touch or connect on social platforms</p>
       </header>
       <div className={classes.footerContainer}>
-        <div className={classes.footerSection}>
-          <h3 className={classes.footerTitle}>Contact Info</h3>
+        <Reveal delay={0}>
+          <div className={classes.footerSection}>
+            <h3 className={classes.footerTitle}>Contact Info</h3>
           <div className={classes.contactItem}>
             <span className={classes.label}>Name:</span>
             <span>{name}</span>
@@ -46,10 +48,12 @@ function Footer({
             <span className={classes.label}>Location:</span>
             <span>{location}</span>
           </div>
-        </div>
+          </div>
+        </Reveal>
 
-        <div className={classes.footerSection}>
-          <h3 className={classes.footerTitle}>Connect With Me</h3>
+        <Reveal delay={60}>
+          <div className={classes.footerSection}>
+            <h3 className={classes.footerTitle}>Connect With Me</h3>
           <div className={classes.socialLinks}>
             {resumeUrl && (
               <a
@@ -92,16 +96,21 @@ function Footer({
               </a>
             )}
           </div>
-        </div>
+          </div>
+        </Reveal>
 
-        <div id='about' className={classes.footerSection}>
-          <h3 className={classes.footerTitle}>About</h3>
-          <p className={classes.aboutText}>{aboutText}</p>
-        </div>
-        <div className={classes.footerSection}>
-          <h3 className={classes.footerTitle}>Extra</h3>
-          <p className={classes.aboutText}>{educationText}</p>
-        </div>
+        <Reveal delay={120}>
+          <div id='about' className={classes.footerSection}>
+            <h3 className={classes.footerTitle}>About</h3>
+            <p className={classes.aboutText}>{aboutText}</p>
+          </div>
+        </Reveal>
+        <Reveal delay={180}>
+          <div className={classes.footerSection}>
+            <h3 className={classes.footerTitle}>Extra</h3>
+            <p className={classes.aboutText}>{educationText}</p>
+          </div>
+        </Reveal>
       </div>
 
       <div className={classes.footerBottom}>

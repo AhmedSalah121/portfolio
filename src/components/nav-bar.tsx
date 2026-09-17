@@ -1,16 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
+import { useScrollProgress } from '../hooks/use-scroll-progress';
 import classes from './nav-bar.module.css';
 
 const NAV_LINKS = [
-  { href: '#lore', label: 'Lore' },
-  { href: '#techstack', label: 'Tech Stack' },
-  { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#lore', id: 'lore', label: 'Lore' },
+  { href: '#techstack', id: 'techstack', label: 'Tech Stack' },
+  { href: '#about', id: 'about', label: 'About' },
+  { href: '#contact', id: 'contact', label: 'Contact' },
 ] as const;
+
+const SECTION_IDS = NAV_LINKS.map(link => link.id);
 
 function NavBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('lore');
   const scrollPositionRef = useRef(0);
+  const scrollProgress = useScrollProgress();
+  const supportsScrollTimeline =
+    typeof CSS !== 'undefined' &&
+    CSS.supports('animation-timeline: scroll()');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
@@ -44,14 +53,75 @@ function NavBar() {
     };
   }, [isSidebarOpen]);
 
+  useEffect(() => {
+    const sentinel = document.getElementById('nav-scroll-sentinel');
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsScrolled(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: '-40px 0px 0px 0px' }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sections = SECTION_IDS.map(id => document.getElementById(id)).filter(
+      (el): el is HTMLElement => el !== null
+    );
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length > 0 && visible[0].target.id) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      { threshold: [0.15, 0.3, 0.5], rootMargin: '-20% 0px -60% 0px' }
+    );
+
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  const renderNavLink = (link: (typeof NAV_LINKS)[number], mobile = false) => {
+    const isActive = activeSection === link.id;
+    const linkClass = mobile
+      ? `${classes.sidebarNavLink} ${isActive ? classes.navLinkActive : ''}`
+      : `${classes.navLink} ${isActive ? classes.navLinkActive : ''}`;
+
+    return (
+      <a
+        key={link.href}
+        href={link.href}
+        className={linkClass}
+        aria-current={isActive ? 'true' : undefined}
+        onClick={mobile ? closeSidebar : undefined}
+      >
+        {link.label}
+        {!mobile && isActive && (
+          <span className={classes.navIndicator} aria-hidden='true' />
+        )}
+      </a>
+    );
+  };
+
   return (
     <>
-      <header className={classes.navbar}>
+      <header
+        className={`${classes.navbar} ${isScrolled ? classes.navbarScrolled : ''}`}
+      >
         <ul className={classes.links}>
-          {NAV_LINKS.map(({ href, label }) => (
-            <li key={href}>
-              <a href={href}>{label}</a>
-            </li>
+          {NAV_LINKS.map(link => (
+            <li key={link.href}>{renderNavLink(link)}</li>
           ))}
         </ul>
 
@@ -80,9 +150,12 @@ function NavBar() {
         </div>
 
         <button
+          type='button'
           className={classes.hamburger}
           onClick={toggleSidebar}
-          aria-label='Toggle menu'
+          aria-label={isSidebarOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isSidebarOpen}
+          aria-controls='mobile-sidebar'
         >
           <span
             className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}
@@ -94,18 +167,26 @@ function NavBar() {
             className={`${classes.hamburgerLine} ${isSidebarOpen ? classes.hamburgerLineOpen : ''}`}
           ></span>
         </button>
+
+        <div
+          className={`${classes.progressBar} ${supportsScrollTimeline ? classes.progressBarNative : ''}`}
+          style={
+            supportsScrollTimeline
+              ? undefined
+              : { transform: `scaleX(${scrollProgress})` }
+          }
+          aria-hidden='true'
+        />
       </header>
 
       <div
+        id='mobile-sidebar'
         className={`${classes.sidebar} ${isSidebarOpen ? classes.sidebarOpen : ''}`}
+        aria-hidden={!isSidebarOpen}
       >
         <div className={classes.sidebarContent}>
           <nav className={classes.sidebarNav}>
-            {NAV_LINKS.map(({ href, label }) => (
-              <a key={href} href={href} onClick={closeSidebar}>
-                {label}
-              </a>
-            ))}
+            {NAV_LINKS.map(link => renderNavLink(link, true))}
           </nav>
           <div className={classes.sidebarSocials}>
             <a

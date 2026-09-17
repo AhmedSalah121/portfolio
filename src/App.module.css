@@ -82,3 +82,19 @@
     opacity: 0;
   }
 }
+
+#nav-scroll-sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardSeparator::before,
+  .cardSeparator::after {
+    animation: none;
+  }
+}

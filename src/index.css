@@ -74,6 +74,8 @@ body {
   margin-bottom: var(--space-7);
 }
 
+/* Section headers stay stationary in normal document flow */
+
 .sectionTitle {
   font-family: 'Playfair Display', serif;
   font-size: clamp(1.75rem, 4vw, 2.25rem);
@@ -97,4 +99,18 @@ body {
 [id='about'],
 [id='contact'] {
   scroll-margin-top: var(--navbar-height);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scrollingText,
+  .cardSeparator::before,
+  .cardSeparator::after,
+  .scrollIndicator,
+  .heroParallax {
+    animation: none !important;
+  }
 }

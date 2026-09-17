@@ -1,16 +1,19 @@
 import NavBar from './components/nav-bar';
 import Hero from './components/hero';
 import AnnouncementBanner from './components/announcement-banner';
+import BackToTop from './components/back-to-top';
 import classes from './App.module.css';
 import Footer from './components/footer';
 import ImageCard from './components/image-card';
 import TechStack from './components/tech-stack';
+import Reveal from './components/reveal';
 import { experiences } from './data/experience';
 import { contactInfo } from './data/contact';
 
 function App() {
   return (
     <>
+      <div id='nav-scroll-sentinel' aria-hidden='true' />
       <NavBar />
       <main className={`${classes.main} container`}>
         <Hero />
@@ -36,10 +39,13 @@ function App() {
           <TechStack />
         </section>
 
-        <AnnouncementBanner />
+        <Reveal>
+          <AnnouncementBanner />
+        </Reveal>
 
         <Footer {...contactInfo} />
       </main>
+      <BackToTop />
     </>
   );
 }

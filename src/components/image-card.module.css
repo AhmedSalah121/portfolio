@@ -30,19 +30,80 @@
 .portfolioImageContainerHorizontal {
   width: 35%;
   flex-shrink: 0;
-  overflow: hidden;
   position: relative;
   background: #1a1a1a;
-  aspect-ratio: 16 / 9;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  overflow: hidden;
+}
+
+.portfolioImageCardHorizontalReverse .portfolioImageContainerHorizontal {
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 }
 
 .portfolioImageContainerMobile {
-  width: 20%;
+  width: 240px;
+  max-width: 30%;
   flex-shrink: 0;
-  overflow: hidden;
   position: relative;
   background: #1a1a1a;
-  aspect-ratio: 9 / 19.5;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  overflow: hidden;
+}
+
+.portfolioImageCardHorizontalReverse .portfolioImageContainerMobile {
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.logoPanel {
+  width: 35%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.05) 0%,
+    var(--surface-raised) 100%
+  );
+  border-right: 1px solid var(--border);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.portfolioImageCardHorizontalReverse .logoPanel {
+  border-right: none;
+  border-left: 1px solid var(--border);
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.05);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.logoImage {
+  width: min(45%, 180px);
+  min-width: 90px;
+  height: auto;
+  max-height: 140px;
+  object-fit: contain;
+  transition: transform var(--ease);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.logoPanel:hover .logoImage {
+  transform: scale(1.03);
+}
+
+.logoMonogram {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
 }
 
 .slideShowContainer {
@@ -76,9 +137,11 @@
   height: 100%;
   min-width: 100%;
   flex-shrink: 0;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center;
   display: block;
+  padding: var(--space-2);
+  box-sizing: border-box;
 }
 
 .portfolioContentContainerHorizontal {
@@ -212,7 +275,93 @@
   font-size: 0.875rem;
 }
 
-@media (max-width: 479.98px) {
+.slideshowControls {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.slideBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--text);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity var(--ease), background var(--ease);
+  z-index: 2;
+}
+
+.slideshowControls:hover .slideBtn,
+.slideshowControls:focus-within .slideBtn {
+  opacity: 1;
+}
+
+.slideBtn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.slideBtnPrev {
+  left: var(--space-2);
+}
+
+.slideBtnNext {
+  right: var(--space-2);
+}
+
+.slideDots {
+  position: absolute;
+  bottom: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-2);
+  z-index: 2;
+}
+
+.slideDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--ease), transform var(--ease);
+}
+
+.slideDotActive {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slideShowWrapper {
+    transition: none;
+  }
+}
+
+@media (max-width: 767.98px) {
   .portfolioImageCardHorizontal,
   .portfolioImageCardHorizontalReverse,
   .noImageCard,
@@ -220,13 +369,40 @@
     flex-direction: column;
   }
 
+  .logoPanel {
+    width: 100%;
+    height: 160px;
+    padding: var(--space-4);
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .portfolioImageCardHorizontalReverse .logoPanel {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logoImage {
+    width: auto;
+    height: min(60%, 100px);
+    max-height: 100px;
+  }
+
   .portfolioImageContainerMobile {
-    width: 50%;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    height: 240px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .portfolioImageContainerHorizontal {
     width: 100%;
+    height: 200px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .portfolioContentContainerHorizontal,
@@ -239,45 +415,18 @@
   .noImagePlaceholder {
     width: 100%;
     min-height: 100px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .portfolioCardTitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 }
 
-@media (min-width: 480px) and (max-width: 639.98px) {
-  .portfolioImageCardHorizontal,
-  .portfolioImageCardHorizontalReverse,
-  .noImageCard,
-  .noImageCardReverse {
-    flex-direction: column;
-  }
-
-  .portfolioImageContainerMobile {
-    width: 55%;
-    margin: 0 auto;
-  }
-
-  .portfolioImageContainerHorizontal {
-    width: 100%;
-  }
-
-  .portfolioContentContainerHorizontal,
-  .portfolioContentContainerMobile,
-  .noImageContent {
-    width: 100%;
-    padding: var(--space-4);
-  }
-
-  .noImagePlaceholder {
-    width: 100%;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023.98px) {
-  .portfolioImageContainerHorizontal {
-    width: 45%;
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .portfolioImageContainerHorizontal,
+  .logoPanel {
+    width: 35%;
   }
 
   .portfolioImageContainerMobile {
@@ -285,7 +434,7 @@
   }
 
   .portfolioContentContainerHorizontal {
-    width: 55%;
+    width: 65%;
   }
 
   .portfolioContentContainerMobile {
@@ -293,17 +442,18 @@
   }
 
   .noImagePlaceholder {
-    width: 45%;
+    width: 35%;
   }
 
   .noImageContent {
-    width: 55%;
+    width: 65%;
   }
 }
 
 @media (min-width: 1024px) {
-  .portfolioImageContainerHorizontal {
-    width: 40%;
+  .portfolioImageContainerHorizontal,
+  .logoPanel {
+    width: 35%;
   }
 
   .portfolioImageContainerMobile {
@@ -311,7 +461,7 @@
   }
 
   .portfolioContentContainerHorizontal {
-    width: 60%;
+    width: 65%;
     padding: var(--space-6);
   }
 
@@ -321,11 +471,11 @@
   }
 
   .noImagePlaceholder {
-    width: 40%;
+    width: 35%;
   }
 
   .noImageContent {
-    width: 60%;
+    width: 65%;
     padding: var(--space-6);
   }
 

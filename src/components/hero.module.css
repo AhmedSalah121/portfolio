@@ -7,10 +7,44 @@
   text-align: center;
   position: relative;
   padding: var(--space-8) var(--space-4);
+  overflow: hidden;
+}
+
+.heroParallax {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.parallaxBlob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.15;
+  will-change: transform;
+}
+
+.parallaxBlob1 {
+  width: 300px;
+  height: 300px;
+  background: var(--accent);
+  top: 10%;
+  left: 10%;
+}
+
+.parallaxBlob2 {
+  width: 250px;
+  height: 250px;
+  background: var(--accent-2);
+  bottom: 20%;
+  right: 15%;
 }
 
 .heroContent {
   max-width: 640px;
+  position: relative;
+  z-index: 2;
 }
 
 .heroTitle {
@@ -107,6 +141,22 @@
   }
   50% {
     transform: translateX(-50%) translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollIndicator {
+    animation: none;
+  }
+
+  .parallaxBlob {
+    will-change: auto;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .heroParallax {
+    display: none;
   }
 }
 

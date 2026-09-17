@@ -1,0 +1,44 @@
+.sentinel {
+  position: absolute;
+  top: 60vh;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.backToTop {
+  position: fixed;
+  bottom: max(var(--space-5), env(safe-area-inset-bottom, 0px));
+  right: max(var(--space-5), env(safe-area-inset-right, 0px));
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--ease), transform var(--ease), background var(--ease);
+  z-index: calc(var(--z-navbar) - 1);
+  pointer-events: none;
+}
+
+.backToTopVisible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.backToTop:hover {
+  background: var(--surface-raised);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backToTop {
+    transition: opacity 0.01s;
+    transform: none;
+  }
+}

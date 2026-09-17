@@ -91,6 +91,12 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .scrollingText {
+    animation: none;
+  }
+}
+
 @media (min-width: 1024px) {
   .bannerContainer {
     height: 50px;
