@@ -15,32 +15,29 @@
 }
 
 .portfolioImageContainerHorizontal {
-    width: 35%;
-    height: auto;
-    min-height: 280px;
-    flex-shrink: 0;
-    overflow: hidden;
-    position: relative;
-    border-radius: 2rem;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  width: 35%;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  border-radius: 2rem;
+  background: #1a1a1a;
+  aspect-ratio: 16 / 9;
 }
 
 .portfolioImageContainerMobile {
-    width: 20%;
-    height: auto;
-    min-height: 250px;
-    flex-shrink: 0;
-    overflow: hidden;
-    position: relative;
-    border-radius: 2rem;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  width: 20%;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  border-radius: 2rem;
+  background: #1a1a1a;
+  aspect-ratio: 9 / 19.5;
 }
 
 .slideShowContainer {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: inherit;
   display: flex;
   overflow: hidden;
 }
@@ -49,7 +46,6 @@
   display: flex;
   width: 100%;
   height: 100%;
-  min-height: inherit;
   transition: transform 0.5s ease-in-out;
   position: relative;
 }
@@ -70,7 +66,7 @@
   min-width: 100%;
   flex-shrink: 0;
   object-fit: cover;
-  object-position: center;
+  object-position: center top;
   display: block;
 }
 
@@ -81,8 +77,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 0;
-  overflow-y: auto;
 }
 
 .portfolioContentContainerMobile {
@@ -92,11 +86,51 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 0;
-  overflow-y: auto;
 }
 
-/* --- Text --- */
+/* No-image card variant */
+.noImageCard {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+}
+
+.noImageCardReverse {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+}
+
+.noImagePlaceholder {
+  width: 35%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  aspect-ratio: 16 / 9;
+  min-height: 120px;
+}
+
+.noImageIcon {
+  font-size: 2.5rem;
+  opacity: 0.5;
+}
+
+.noImageContent {
+  width: 65%;
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
 .portfolioCardTitle {
   font-size: 1.25rem;
   font-weight: bold;
@@ -120,27 +154,11 @@
   overflow-wrap: break-word;
 }
 
-/* ============================= */
-/* Base styles (mobile-first)    */
-/* ============================= */
-
-/* Images inside containers */
-.portfolioCardImage,
-.portfolioCardImageMobile {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ============================= */
-/* Breakpoints                   */
-/* ============================= */
-
-/* Small phones */
-@media (max-width: 480px) {
+@media (max-width: 479.98px) {
   .portfolioImageCardHorizontal,
-  .portfolioImageCardHorizontalReverse {
+  .portfolioImageCardHorizontalReverse,
+  .noImageCard,
+  .noImageCardReverse {
     flex-direction: column;
     gap: 1rem;
   }
@@ -148,46 +166,22 @@
   .portfolioImageContainerMobile {
     width: 50%;
     margin: 0 auto;
-    min-height: 200px;
   }
 
   .portfolioImageContainerHorizontal {
     width: 100%;
-    min-height: 160px;
-    max-height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .portfolioCardImage {
-    object-fit: contain;
-    object-position: center;
-    height: auto;
-    max-height: 100%;
-    width: auto;
-    max-width: 100%;
   }
 
   .portfolioContentContainerHorizontal,
-  .portfolioContentContainerMobile {
+  .portfolioContentContainerMobile,
+  .noImageContent {
     padding: 1rem;
     width: 100%;
-    max-height: none;
-    overflow-y: visible; /* No scrolling on mobile */
   }
 
-  .slideShowContainer {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .slideShowWrapper {
-    height: 100%;
-    display: flex;
-    align-items: center;
+  .noImagePlaceholder {
+    width: 100%;
+    min-height: 100px;
   }
 
   .portfolioCardTitle {
@@ -201,10 +195,11 @@
   }
 }
 
-/* Large phones / phablets */
-@media (min-width: 480px) and (max-width: 640px) {
+@media (min-width: 480px) and (max-width: 639.98px) {
   .portfolioImageCardHorizontal,
-  .portfolioImageCardHorizontalReverse {
+  .portfolioImageCardHorizontalReverse,
+  .noImageCard,
+  .noImageCardReverse {
     flex-direction: column;
     gap: 1.25rem;
   }
@@ -212,47 +207,21 @@
   .portfolioImageContainerMobile {
     width: 55%;
     margin: 0 auto;
-    min-height: 220px;
   }
 
   .portfolioImageContainerHorizontal {
     width: 100%;
-    min-height: 180px;
-    max-height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  
-  .portfolioCardImage {
-    object-fit: contain;
-    object-position: center;
-    height: auto;
-    max-height: 100%;
-    width: auto;
-    max-width: 100%;
   }
 
   .portfolioContentContainerHorizontal,
-  .portfolioContentContainerMobile {
+  .portfolioContentContainerMobile,
+  .noImageContent {
     padding: 1.25rem;
     width: 100%;
-    max-height: none;
-    overflow-y: visible;
   }
 
-  .slideShowContainer {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .slideShowWrapper {
-    height: 100%;
-    display: flex;
-    align-items: center;
+  .noImagePlaceholder {
+    width: 100%;
   }
 
   .portfolioCardTitle {
@@ -264,11 +233,17 @@
   }
 }
 
-/* Tablets */
-@media (min-width: 640px) and (max-width: 1024px) {
+@media (min-width: 640px) and (max-width: 1023.98px) {
   .portfolioImageCardHorizontal,
-  .portfolioImageCardHorizontalReverse {
+  .portfolioImageCardHorizontalReverse,
+  .noImageCard,
+  .noImageCardReverse {
     flex-direction: row;
+  }
+
+  .noImageCardReverse,
+  .portfolioImageCardHorizontalReverse {
+    flex-direction: row-reverse;
   }
 
   .portfolioImageContainerHorizontal {
@@ -288,28 +263,24 @@
     width: 72%;
     padding: 1.5rem;
   }
+
+  .noImagePlaceholder {
+    width: 45%;
+  }
+
+  .noImageContent {
+    width: 55%;
+    padding: 1.5rem;
+  }
 }
 
-/* Desktop */
 @media (min-width: 1024px) {
   .portfolioImageContainerHorizontal {
     width: 40%;
-    min-height: 350px;
   }
 
   .portfolioImageContainerMobile {
     width: 24%;
-    min-height: 380px;
-  }
-
-  .slideShowContainer {
-    height: 100%;
-    min-height: inherit;
-  }
-  
-  .slideShowWrapper {
-    height: 100%;
-    min-height: inherit;
   }
 
   .portfolioContentContainerHorizontal {
@@ -320,6 +291,15 @@
   .portfolioContentContainerMobile {
     padding: 2rem;
     width: 76%;
+  }
+
+  .noImagePlaceholder {
+    width: 40%;
+  }
+
+  .noImageContent {
+    padding: 2rem;
+    width: 60%;
   }
 
   .portfolioCardTitle {

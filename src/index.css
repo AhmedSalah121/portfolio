@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
 :root {
+  /* Z-index scale */
+  --z-overlay: 900;
+  --z-sidebar: 1000;
+  --z-navbar: 1100;
+
   font-family: 'Poppins', 'Playfair Display', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -13,9 +18,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  justify-content: center;
-  
+
   scroll-behavior: smooth;
 }
 
@@ -25,11 +28,18 @@ html {
 
 body {
   margin: 0;
-  /* display: flex; */
-  /* place-items: center; */
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-top: 5rem;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Scroll targets — offset for fixed navbar */
+[id='hero'],
+[id='lore'],
+[id='techstack'],
+[id='about'],
+[id='contact'] {
+  scroll-margin-top: clamp(70px, 8vh, 96px);
 }

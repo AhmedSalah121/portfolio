@@ -4,11 +4,11 @@
   align-items: center;
   background-color: rgba(31, 41, 55, 0.7);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(100%);
+  -webkit-backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
-  left: 0; 
-  z-index: 1000;
+  left: 0;
+  z-index: var(--z-navbar);
   width: 100%;
   min-height: 45px;
   padding: 0 clamp(1rem, 5vw, 2rem);
@@ -21,6 +21,13 @@
   gap: clamp(0.75rem, 3vw, 1.5rem);
   align-items: center;
   flex-wrap: nowrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links li {
+  display: contents;
 }
 
 .links a {
@@ -49,7 +56,7 @@
   width: clamp(16px, 3vw, 20px);
   height: clamp(16px, 3vw, 20px);
   cursor: pointer;
-  transition: opacity 0.15s, transofrm 0.15s;
+  transition: opacity 0.15s, transform 0.15s;
   border-radius: 0.125rem;
   aspect-ratio: 1/1;
   object-fit: contain;
@@ -62,7 +69,6 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Hamburger button (hidden by default) */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -74,7 +80,8 @@
   cursor: pointer;
   padding: 0;
   margin-left: 0.5rem;
-  z-index: 1001;
+  position: relative;
+  z-index: calc(var(--z-navbar) + 1);
 }
 
 .hamburgerLine {
@@ -98,17 +105,16 @@
   transform: rotate(-45deg) translate(4px, -4px);
 }
 
-/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
-  right: -200px;
-  width: 180px;
-  height: 100vh;
-  background: rgba(31, 41, 55, 0.4);
+  right: -220px;
+  width: 200px;
+  height: 100dvh;
+  background: rgba(31, 41, 55, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  z-index: 1000;
+  z-index: var(--z-sidebar);
   transition: right 0.3s ease;
   border-left: 1px solid rgba(75, 85, 99, 0.2);
 }
@@ -122,12 +128,33 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebarNav a {
+  color: #f9fafb;
+  text-decoration: none;
+  padding: 0.75rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+.sidebarNav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebarSocials {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-top: auto;
 }
 
 .sidebarSocials a {
@@ -156,7 +183,6 @@
   font-weight: 400;
 }
 
-/* Overlay */
 .overlay {
   position: fixed;
   top: 0;
@@ -164,7 +190,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: var(--z-overlay);
   opacity: 0;
   animation: fadeIn 0.3s ease forwards;
 }
@@ -175,90 +201,41 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 767.98px) {
   .navbar {
     min-height: 40px;
     padding: 0 0.75rem;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     gap: 0.5rem;
   }
-  
+
   .links {
-    gap: 0.4rem;
-    flex: 1;
-    justify-content: center;
-    flex-wrap: nowrap;
-    margin-right: auto;
+    display: none;
   }
-  
-  /* Hide desktop socials on mobile */
+
   .socials {
     display: none;
   }
-  
-  /* Show hamburger button on mobile */
+
   .hamburger {
     display: flex;
     flex-shrink: 0;
   }
-  
-  .links a {
-    font-size: 0.65rem;
-    padding: 0.15rem 0.25rem;
-  }
 }
 
-@media (min-width: 480px) and (max-width: 640px) {
-  .navbar {
-    min-height: 55px;
-    padding: 0 1rem;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  
-  .links {
-    gap: 1rem;
-    flex: 1;
-    justify-content: center;
-    margin-right: auto;
-  }
-  
-  /* Hide desktop socials on small tablets */
-  .socials {
-    display: none;
-  }
-  
-  /* Show hamburger button on small tablets */
-  .hamburger {
-    display: flex;
-    flex-shrink: 0;
-  }
-  
-  .links a {
-    font-size: 0.9rem;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1023.98px) {
   .navbar {
     min-height: 58px;
     padding: 0 2rem;
   }
-  
+
   .links {
     gap: 1.75rem;
   }
-  
+
   .socials {
     gap: 1rem;
-  }
-  
-  .github,
-  .linkedin {
-    width: 24px;
-    height: 24px;
   }
 }
 
@@ -267,19 +244,13 @@
     min-height: 60px;
     padding: 0 3rem;
   }
-  
+
   .links {
     gap: 2.5rem;
   }
-  
+
   .socials {
     gap: 1.25rem;
-  }
-  
-  .github,
-  .linkedin {
-    width: 28px;
-    height: 28px;
   }
 }
 
@@ -287,7 +258,7 @@
   .navbar {
     padding: 0 4rem;
   }
-  
+
   .links a {
     font-size: 1.05rem;
   }

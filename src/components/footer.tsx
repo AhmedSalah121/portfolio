@@ -38,7 +38,7 @@ function Footer({
           </div>
           <div className={classes.contactItem}>
             <span className={classes.label}>Phone:</span>
-            <a href={`tel:${phone}`} className={classes.link}>
+            <a href={`tel:${phone?.replace(/\s/g, '')}`} className={classes.link}>
               {phone}
             </a>
           </div>
@@ -100,7 +100,7 @@ function Footer({
           </div>
         </div>
 
-        <div className={classes.footerSection}>
+        <div id='about' className={classes.footerSection}>
           <h3 className={classes.footerTitle}>About</h3>
           <p className={classes.aboutText}>
             Passionate Backend Software Engineer who is taking a big footstep

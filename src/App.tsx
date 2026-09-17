@@ -15,6 +15,7 @@ function App() {
           images={[
             './iorto1.jpeg',
             './iorto2.jpeg',
+            './iorto3.jpeg',
             './iorto4.jpeg',
             './iorto5.jpeg',
           ]}
@@ -52,28 +53,24 @@ function App() {
         />
       </section>
 
-      {/* Tech Stack Section */}
       <section id='techstack'>
         <TechStack />
       </section>
 
-      {/* About & Contact Section (Footer) */}
-      <section id='about'>
-        <Footer
-          name='Ahmed Salah'
-          title='Full Stack Software Engineer'
-          phone='+20 1121097405'
-          email='ahmedsalahabdellatif@gmail.com'
-          location='15th of May City Cairo, Egypt'
-          resumeUrl='https://drive.google.com/file/d/1N-J16liJyBO3N4gKTGaxTSpsN0a-pk-L/view'
-          socialLinks={{
-            linkedin: 'https://linkedin.com/in/ahmedsalah121',
-            github: 'https://github.com/AhmedSalah121',
-            leetcode: 'https://leetcode.com/u/AhmedSalah121',
-          }}
-        />
-        <AnnouncementBanner />
-      </section>
+      <Footer
+        name='Ahmed Salah'
+        title='Full Stack Software Engineer'
+        phone='+20 1121097405'
+        email='ahmedsalahabdellatif@gmail.com'
+        location='15th of May City Cairo, Egypt'
+        resumeUrl='https://drive.google.com/file/d/1N-J16liJyBO3N4gKTGaxTSpsN0a-pk-L/view'
+        socialLinks={{
+          linkedin: 'https://linkedin.com/in/ahmedsalah121',
+          github: 'https://github.com/AhmedSalah121',
+          leetcode: 'https://leetcode.com/u/AhmedSalah121',
+        }}
+      />
+      <AnnouncementBanner />
     </div>
   );
 }

@@ -5,7 +5,7 @@
   gap: 3rem;
   margin: 0 auto;
   padding: 2rem 0; /* Back to original padding */
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .cardSeparator {

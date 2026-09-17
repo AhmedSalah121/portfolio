@@ -30,7 +30,7 @@
   white-space: nowrap;
   animation: smoothScroll 50s linear infinite;
   gap: 6rem;
-  transform: translateZ(0); /* Enable hardware acceleration */
+  transform: translateZ(0);
   will-change: transform;
 }
 
@@ -51,19 +51,19 @@
 
 @keyframes smoothScroll {
   0% {
-    transform: translateX(20%) translateZ(0);
+    transform: translateX(0) translateZ(0);
   }
   100% {
-    transform: translateX(-100%) translateZ(0);
+    transform: translateX(-50%) translateZ(0);
   }
 }
 
-.bannerContainer:hover .scrollingText {
-  animation-play-state: unset;
+.bannerContainer:hover .scrollingText,
+.bannerContainer:focus-within .scrollingText {
+  animation-play-state: paused;
 }
 
-/* Mobile adjustments */
-@media (max-width: 640px) {
+@media (max-width: 639.98px) {
   .bannerContainer {
     height: 38px;
     margin: 2rem 0;
@@ -81,7 +81,7 @@
   }
 }
 
-@media (min-width: 641px) and (max-width: 1024px) {
+@media (min-width: 640px) and (max-width: 1023.98px) {
   .bannerContainer {
     height: 42px;
   }

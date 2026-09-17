@@ -1,76 +1,84 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classes from './nav-bar.module.css';
+
+const NAV_LINKS = [
+  { href: '#lore', label: 'Lore' },
+  { href: '#techstack', label: 'Tech Stack' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+] as const;
 
 function NavBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const scrollPositionRef = useRef(0);
 
-  const handleSmoothScroll = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    targetId: string
-  ) => {
-    e.preventDefault();
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-    // Close sidebar after navigation on mobile
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
+  };
+
+  const closeSidebar = () => {
     setIsSidebarOpen(false);
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  useEffect(() => {
+    if (isSidebarOpen) {
+      scrollPositionRef.current = window.scrollY;
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPositionRef.current}px`;
+      document.body.style.width = '100%';
+    } else {
+      const scrollY = scrollPositionRef.current;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
+  }, [isSidebarOpen]);
 
   return (
     <>
       <header className={classes.navbar}>
         <ul className={classes.links}>
-          <a href='#lore' onClick={e => handleSmoothScroll(e, 'lore')}>
-            Lore
-          </a>
-          <a
-            href='#techstack'
-            onClick={e => handleSmoothScroll(e, 'techstack')}
-          >
-            Tech Stack
-          </a>
-          <a href='#about' onClick={e => handleSmoothScroll(e, 'about')}>
-            About
-          </a>
-          <a href='#contact' onClick={e => handleSmoothScroll(e, 'contact')}>
-            Contact
-          </a>
+          {NAV_LINKS.map(({ href, label }) => (
+            <li key={href}>
+              <a href={href}>{label}</a>
+            </li>
+          ))}
         </ul>
 
-        {/* Desktop socials */}
         <div className={classes.socials}>
           <a
             href='https://www.github.com/AhmedSalah121'
             target='_blank'
             rel='noopener noreferrer'
           >
-            <img className={classes.img} src='./github-white.svg' />
+            <img className={classes.img} src='./github-white.svg' alt='GitHub' />
           </a>
           <a
             href='https://www.linkedin.com/in/ahmedsalah121/'
             target='_blank'
             rel='noopener noreferrer'
           >
-            <img className={classes.img} src='./linkedin.svg' />
+            <img className={classes.img} src='./linkedin.svg' alt='LinkedIn' />
           </a>
           <a
             href='https://www.leetcode.com/u/AhmedSalah121/'
             target='_blank'
             rel='noopener noreferrer'
           >
-            <img className={classes.img} src='./leetcode.svg' />
+            <img className={classes.img} src='./leetcode.svg' alt='LeetCode' />
           </a>
         </div>
 
-        {/* Mobile hamburger button */}
         <button
           className={classes.hamburger}
           onClick={toggleSidebar}
@@ -88,49 +96,51 @@ function NavBar() {
         </button>
       </header>
 
-      {/* Mobile sidebar */}
       <div
         className={`${classes.sidebar} ${isSidebarOpen ? classes.sidebarOpen : ''}`}
       >
         <div className={classes.sidebarContent}>
+          <nav className={classes.sidebarNav}>
+            {NAV_LINKS.map(({ href, label }) => (
+              <a key={href} href={href} onClick={closeSidebar}>
+                {label}
+              </a>
+            ))}
+          </nav>
           <div className={classes.sidebarSocials}>
             <a
               href='https://www.github.com/AhmedSalah121'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={closeSidebar}
             >
-              <img className={classes.sidebarImg} src='./github-white.svg' />
+              <img className={classes.sidebarImg} src='./github-white.svg' alt='GitHub' />
               <span>GitHub</span>
             </a>
             <a
               href='https://www.linkedin.com/in/ahmedsalah121/'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={closeSidebar}
             >
-              <img className={classes.sidebarImg} src='./linkedin.svg' />
+              <img className={classes.sidebarImg} src='./linkedin.svg' alt='LinkedIn' />
               <span>LinkedIn</span>
             </a>
             <a
               href='https://www.leetcode.com/u/AhmedSalah121/'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={closeSidebar}
             >
-              <img className={classes.sidebarImg} src='./leetcode.svg' />
+              <img className={classes.sidebarImg} src='./leetcode.svg' alt='LeetCode' />
               <span>LeetCode</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Overlay */}
       {isSidebarOpen && (
-        <div
-          className={classes.overlay}
-          onClick={() => setIsSidebarOpen(false)}
-        ></div>
+        <div className={classes.overlay} onClick={closeSidebar}></div>
       )}
     </>
   );
