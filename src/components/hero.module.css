@@ -3,11 +3,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100dvh - clamp(70px, 8vh, 96px));
+  min-height: 100dvh;
+  margin-top: calc(-1 * var(--navbar-height) - var(--space-6));
+  padding-top: calc(var(--navbar-height) + var(--space-8));
+  padding-bottom: var(--space-8);
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
   text-align: center;
   position: relative;
-  padding: var(--space-8) var(--space-4);
   overflow: hidden;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  box-sizing: border-box;
 }
 
 .heroParallax {
@@ -19,26 +27,68 @@
 
 .parallaxBlob {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.15;
+  filter: blur(120px);
+  opacity: 0.22;
   will-change: transform;
+  border-radius: 40% 60% 70% 30% / 50% 30% 70% 50%;
+  pointer-events: none;
 }
 
 .parallaxBlob1 {
-  width: 300px;
-  height: 300px;
-  background: var(--accent);
-  top: 10%;
-  left: 10%;
+  width: 750px;
+  height: 650px;
+  background: radial-gradient(
+    circle at 40% 40%,
+    rgba(129, 140, 248, 0.85) 0%,
+    rgba(192, 132, 252, 0.5) 30%,
+    rgba(56, 189, 248, 0.2) 55%,
+    rgba(56, 189, 248, 0.05) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  top: -15%;
+  left: -15%;
+  animation: nebulaDrift1 45s ease-in-out infinite alternate;
 }
 
 .parallaxBlob2 {
-  width: 250px;
-  height: 250px;
-  background: var(--accent-2);
-  bottom: 20%;
-  right: 15%;
+  width: 700px;
+  height: 620px;
+  background: radial-gradient(
+    circle at 60% 50%,
+    rgba(167, 139, 250, 0.8) 0%,
+    rgba(236, 72, 153, 0.4) 30%,
+    rgba(99, 102, 241, 0.18) 55%,
+    rgba(99, 102, 241, 0.04) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  bottom: -15%;
+  right: -15%;
+  border-radius: 60% 40% 30% 70% / 40% 60% 40% 60%;
+  animation: nebulaDrift2 55s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift1 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(30px, 20px) scale(1.08) rotate(5deg);
+  }
+  100% {
+    transform: translate(-20px, 40px) scale(0.95) rotate(-4deg);
+  }
+}
+
+@keyframes nebulaDrift2 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(-35px, -25px) scale(1.06) rotate(-6deg);
+  }
+  100% {
+    transform: translate(25px, -15px) scale(0.96) rotate(4deg);
+  }
 }
 
 .heroContent {
@@ -151,6 +201,7 @@
 
   .parallaxBlob {
     will-change: auto;
+    animation: none;
   }
 }
 
