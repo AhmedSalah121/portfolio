@@ -7,6 +7,7 @@ import Footer from './components/footer';
 import ImageCard from './components/image-card';
 import TechStack from './components/tech-stack';
 import Reveal from './components/reveal';
+import TerminalEasterEgg from './components/terminal-easter-egg';
 import { experiences } from './data/experience';
 import { contactInfo } from './data/contact';
 
@@ -18,7 +19,7 @@ function App() {
       <main className={`${classes.main} container`}>
         <Hero />
 
-        <section id='lore' className={classes.section}>
+        <section id='experience' className={classes.section}>
           <header className='sectionHeader'>
             <h2 className='sectionTitle'>Experience</h2>
             <p className='sectionSubtitle'>
@@ -46,6 +47,7 @@ function App() {
         <Footer {...contactInfo} />
       </main>
       <BackToTop />
+      <TerminalEasterEgg />
     </>
   );
 }

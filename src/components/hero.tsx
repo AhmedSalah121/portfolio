@@ -87,7 +87,7 @@ function Hero() {
       </div>
 
       <a
-        href='#lore'
+        href='#experience'
         className={classes.scrollIndicator}
         aria-label='Scroll to experience'
       >

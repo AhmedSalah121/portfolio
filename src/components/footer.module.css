@@ -44,6 +44,17 @@
   min-width: 70px;
 }
 
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  color: var(--accent);
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
 .link {
   color: var(--accent);
   text-decoration: none;
@@ -96,6 +107,23 @@
   margin: 0;
   color: var(--text-muted);
   font-size: 0.9rem;
+}
+
+.konamiHint {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  opacity: 0.18;
+  user-select: none;
+  cursor: default;
+  transition: opacity 200ms ease;
+}
+
+.konamiHint:hover {
+  opacity: 0.58;
 }
 
 @media (max-width: 767.98px) {
