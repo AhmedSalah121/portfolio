@@ -3,9 +3,8 @@ import { useScrollProgress } from '../hooks/use-scroll-progress';
 import classes from './nav-bar.module.css';
 
 const NAV_LINKS = [
-  { href: '#lore', id: 'lore', label: 'Lore' },
+  { href: '#experience', id: 'experience', label: 'Experience' },
   { href: '#techstack', id: 'techstack', label: 'Tech Stack' },
-  { href: '#about', id: 'about', label: 'About' },
   { href: '#contact', id: 'contact', label: 'Contact' },
 ] as const;
 
@@ -14,7 +13,7 @@ const SECTION_IDS = NAV_LINKS.map(link => link.id);
 function NavBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('lore');
+  const [activeSection, setActiveSection] = useState<string>('experience');
   const scrollPositionRef = useRef(0);
   const scrollProgress = useScrollProgress();
   const supportsScrollTimeline =
@@ -119,6 +118,9 @@ function NavBar() {
       <header
         className={`${classes.navbar} ${isScrolled ? classes.navbarScrolled : ''}`}
       >
+        <a href="#hero" className={classes.brand} aria-label="Home">
+          AS<span>.</span>
+        </a>
         <ul className={classes.links}>
           {NAV_LINKS.map(link => (
             <li key={link.href}>{renderNavLink(link)}</li>
