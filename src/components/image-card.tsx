@@ -27,8 +27,13 @@ function ImageCard(props: ImageCardProps) {
   const [isPaused, setIsPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxClosing, setLightboxClosing] = useState(false);
   const manualInteractionRef = useRef(false);
   const touchStartX = useRef(0);
+  const lightboxCloseRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  const closeTimerRef = useRef<number | undefined>(undefined);
   const reducedMotion = useReducedMotion();
 
   // Determine effective mediaType
@@ -77,6 +82,26 @@ function ImageCard(props: ImageCardProps) {
     [currentImageIndex, images.length, goToSlide]
   );
 
+  const openLightbox = useCallback(
+    (index: number) => {
+      if (!hasImages) return;
+      setCurrentImageIndex(index);
+      setIsPaused(true);
+      setLightboxOpen(true);
+    },
+    [hasImages]
+  );
+
+  const closeLightbox = useCallback(() => {
+    if (lightboxClosing || closeTimerRef.current !== undefined) return;
+    setLightboxClosing(true);
+    closeTimerRef.current = window.setTimeout(() => {
+      setLightboxOpen(false);
+      setLightboxClosing(false);
+      closeTimerRef.current = undefined;
+    }, 300);
+  }, [lightboxClosing]);
+
   useEffect(() => {
     if (
       !autoSlide ||
@@ -106,8 +131,58 @@ function ImageCard(props: ImageCardProps) {
     goNext,
   ]);
 
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [lightboxOpen]);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    previouslyFocusedRef.current = previousFocus;
+    const restoreFocus = () => {
+      if (previouslyFocusedRef.current) {
+        previouslyFocusedRef.current.focus();
+        previouslyFocusedRef.current = null;
+      }
+    };
+    requestAnimationFrame(() => lightboxCloseRef.current?.focus());
+    return restoreFocus;
+  }, [lightboxOpen]);
+
+  useEffect(() => {
+    if (!lightboxOpen || images.length <= 1) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeLightbox();
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        goPrev(true);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        goNext(true);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [lightboxOpen, images.length, closeLightbox, goPrev, goNext]);
+
+  useEffect(
+    () => () => {
+      if (closeTimerRef.current !== undefined) {
+        window.clearTimeout(closeTimerRef.current);
+      }
+    },
+    []
+  );
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (images.length <= 1) return;
+    if (lightboxOpen || images.length <= 1) return;
     if (e.key === 'ArrowLeft') {
       e.preventDefault();
       goPrev(true);
@@ -194,6 +269,7 @@ function ImageCard(props: ImageCardProps) {
               alt={`${role} at ${company} - screenshot ${index + 1}`}
               loading='lazy'
               decoding='async'
+              onClick={() => openLightbox(index)}
             />
           ))}
         </div>
@@ -238,6 +314,68 @@ function ImageCard(props: ImageCardProps) {
     </div>
   );
 
+  const renderLightbox = () => {
+    if (!lightboxOpen || !hasImages) return null;
+    const image = images[currentImageIndex];
+    return (
+      <div
+        className={`${classes.lightbox} ${lightboxClosing ? classes.lightboxClosing : ''}`}
+        role='dialog'
+        aria-modal='true'
+        aria-label={`${role} - screenshot viewer`}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) closeLightbox();
+        }}
+      >
+        <button
+          type='button'
+          ref={lightboxCloseRef}
+          className={classes.lightboxClose}
+          onClick={closeLightbox}
+          aria-label='Close image viewer'
+        >
+          ×
+        </button>
+        <figure
+          className={classes.lightboxFigure}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeLightbox();
+          }}
+        >
+          <img
+            key={image}
+            className={classes.lightboxImage}
+            src={image}
+            alt={`${role} at ${company} - screenshot ${currentImageIndex + 1}`}
+          />
+        </figure>
+        {images.length > 1 && (
+          <>
+            <button
+              type='button'
+              className={`${classes.lightboxBtn} ${classes.lightboxBtnPrev}`}
+              onClick={() => goPrev(true)}
+              aria-label='Previous image'
+            >
+              ‹
+            </button>
+            <button
+              type='button'
+              className={`${classes.lightboxBtn} ${classes.lightboxBtnNext}`}
+              onClick={() => goNext(true)}
+              aria-label='Next image'
+            >
+              ›
+            </button>
+            <div className={classes.lightboxCounter} aria-live='polite'>
+              {currentImageIndex + 1} / {images.length}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  };
+
   const renderLogoPanel = () => {
     const logoSrc = images[0];
     return (
@@ -280,20 +418,23 @@ function ImageCard(props: ImageCardProps) {
   };
 
   return (
-    <Reveal>
-      <article className={`${cardClass} ${classes.cardSurface}`}>
-        {renderMediaColumn()}
-        <div
-          className={
-            mediaType === 'screenshot-mobile'
-              ? classes.portfolioContentContainerMobile
-              : classes.portfolioContentContainerHorizontal
-          }
-        >
-          {renderContent()}
-        </div>
-      </article>
-    </Reveal>
+    <>
+      <Reveal>
+        <article className={`${cardClass} ${classes.cardSurface}`}>
+          {renderMediaColumn()}
+          <div
+            className={
+              mediaType === 'screenshot-mobile'
+                ? classes.portfolioContentContainerMobile
+                : classes.portfolioContentContainerHorizontal
+            }
+          >
+            {renderContent()}
+          </div>
+        </article>
+      </Reveal>
+      {renderLightbox()}
+    </>
   );
 }
 
