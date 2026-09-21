@@ -20,42 +20,35 @@ interface Star {
   haloGradient?: CanvasGradient;
 }
 
-interface ConstellationPoint {
-  x: number;
-  y: number;
+interface ShootingStar {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  headX: number;
+  headY: number;
   radius: number;
+  age: number;
+  maxAge: number;
   color: string;
-  pulseUntil: number;
 }
 
-// Fixed shape — same every load, not random. Simple 6-point hexagon outline
-// in the top-left periphery, safely outside the heroContent keep-clear zone.
-const CONSTELLATION_NORM: ReadonlyArray<{ x: number; y: number }> = [
-  { x: 0.28, y: 0.22 },
-  { x: 0.24, y: 0.15 },
-  { x: 0.16, y: 0.15 },
-  { x: 0.12, y: 0.22 },
-  { x: 0.16, y: 0.29 },
-  { x: 0.24, y: 0.29 },
-];
-
-const CONSTELLATION_LINE_COLOR = '#a78bfa';
-const CONSTELLATION_HIT_RADIUS = 22;
+interface Burst {
+  x: number;
+  y: number;
+  color: string;
+  start: number;
+}
 
 export default function Starfield() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const reducedMotion = useReducedMotion();
+  const [score, setScore] = useState(0);
+  const [showCounter, setShowCounter] = useState(false);
+  const [isPulsing, setIsPulsing] = useState(false);
 
-  // constellation session state
-  const [showToast, setShowToast] = useState(false);
-  const [toastPos, setToastPos] = useState<{ x: number; y: number } | null>(null);
-  const constellationRef = useRef<ConstellationPoint[]>([]);
-  const constellationStateRef = useRef<{
-    nextIndex: number;
-    segments: Array<{ from: number; to: number; start: number }>;
-    completed: boolean;
-    completedAt: number | null;
-  }>({ nextIndex: 0, segments: [], completed: false, completedAt: null });
+  const shootingStarsRef = useRef<ShootingStar[]>([]);
+  const burstRef = useRef<Burst | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -160,34 +153,37 @@ export default function Starfield() {
           haloGradient.addColorStop(1, 'transparent');
         }
         newStars.push({
-          x: posX,
-          y: posY,
-          radius,
-          baseAlpha,
-          layer,
-          color,
-          isBright,
-          twinklePhase,
-          twinklePeriod,
-          twinkleAmplitude,
-          dispX: 0,
-          dispY: 0,
-          brightnessBoost: 0,
-          gradient: bodyGradient,
-          haloGradient,
+          x: posX, y: posY, radius, baseAlpha, layer, color, isBright,
+          twinklePhase, twinklePeriod, twinkleAmplitude,
+          dispX: 0, dispY: 0, brightnessBoost: 0,
+          gradient: bodyGradient, haloGradient,
         });
       }
       stars = newStars;
     };
 
-    const buildConstellation = (w: number, h: number) => {
-      constellationRef.current = CONSTELLATION_NORM.map((p) => ({
-        x: p.x * w,
-        y: p.y * h,
-        radius: 1.35,
-        color: '#ffffff',
-        pulseUntil: 0,
-      }));
+    const generateShootingStar = (): ShootingStar => {
+      const rect = heroSection?.getBoundingClientRect();
+      const w = rect ? rect.width : width;
+      const h = rect ? rect.height : height;
+      const color = Math.random() < 0.5 ? '#c084fc' : '#7dd3fc';
+      const side = Math.random();
+      let startX: number, startY: number, endX: number, endY: number;
+      if (side < 0.25) {
+        startX = -20; startY = h * (0.15 + Math.random() * 0.7); endX = w + 20; endY = startY + (Math.random() - 0.5) * 80;
+      } else if (side < 0.5) {
+        startX = w + 20; startY = h * (0.15 + Math.random() * 0.7); endX = -20; endY = startY + (Math.random() - 0.5) * 80;
+      } else if (side < 0.75) {
+        startX = w * (0.15 + Math.random() * 0.7); startY = -20; endX = startX + (Math.random() - 0.5) * 80; endY = h + 20;
+      } else {
+        startX = w * (0.15 + Math.random() * 0.7); startY = h + 20; endX = startX + (Math.random() - 0.5) * 80; endY = -20;
+      }
+      return {
+        startX, startY, endX, endY,
+        headX: startX, headY: startY,
+        radius: 2.2 + Math.random() * 1.3,
+        age: 0, maxAge: 1600, color,
+      };
     };
 
     const resize = () => {
@@ -199,7 +195,6 @@ export default function Starfield() {
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       generateStars(width, height);
-      buildConstellation(width, height);
     };
 
     let resizeTimeout: ReturnType<typeof setTimeout>;
@@ -231,8 +226,25 @@ export default function Starfield() {
       heroSection.addEventListener('pointerleave', handlePointerLeave);
     }
 
+    // shooting star scheduling — slower streak but more frequent spawns
+    let shootTimeout: ReturnType<typeof setTimeout> | undefined;
+    if (!reducedMotion) {
+      const scheduleNext = () => {
+        const delay = 8000 + Math.random() * 6000;
+        shootTimeout = setTimeout(() => {
+          shootingStarsRef.current.push(generateShootingStar());
+          scheduleNext();
+        }, delay);
+      };
+      shootTimeout = setTimeout(() => {
+        shootingStarsRef.current.push(generateShootingStar());
+        scheduleNext();
+      }, 2000 + Math.random() * 2000);
+    }
+
     const INFLUENCE_RADIUS = 140;
     const MAX_DISPLACEMENT = 8;
+    const CATCH_RADIUS = 24;
 
     const drawFrame = (now: number) => {
       if (!lastTime) lastTime = now;
@@ -241,6 +253,44 @@ export default function Starfield() {
       ctx.clearRect(0, 0, width, height);
 
       const speeds = { distant: 0.005, mid: 0.012, near: 0.025 };
+
+      if (!reducedMotion) {
+        const sList = shootingStarsRef.current;
+        for (let i = sList.length - 1; i >= 0; i--) {
+          const ss = sList[i];
+          ss.age += dt;
+          const p = ss.age / ss.maxAge;
+          if (p >= 1) { sList.splice(i, 1); continue; }
+          ss.headX = ss.startX + (ss.endX - ss.startX) * p;
+          ss.headY = ss.startY + (ss.endY - ss.startY) * p;
+          const dx = ss.endX - ss.startX;
+          const dy = ss.endY - ss.startY;
+          const len = Math.hypot(dx, dy) || 1;
+          const nx = dx / len, ny = dy / len;
+          const tailLen = 70;
+          const tailX = ss.headX - nx * tailLen;
+          const tailY = ss.headY - ny * tailLen;
+          ctx.save();
+          ctx.globalAlpha = 0.45 * (1 - p * 0.3);
+          ctx.strokeStyle = ss.color;
+          ctx.lineWidth = 1.2;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(tailX, tailY);
+          ctx.lineTo(ss.headX, ss.headY);
+          ctx.stroke();
+          ctx.restore();
+          ctx.save();
+          ctx.globalAlpha = 0.95;
+          ctx.fillStyle = ss.color;
+          ctx.shadowColor = ss.color;
+          ctx.shadowBlur = 6;
+          ctx.beginPath();
+          ctx.arc(ss.headX, ss.headY, ss.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
 
       if (reducedMotion) {
         for (let i = 0; i < stars.length; i++) {
@@ -319,86 +369,36 @@ export default function Starfield() {
         }
       }
 
-      // constellation: lines (draw before points so points sit on top)
-      const cPoints = constellationRef.current;
-      const cState = constellationStateRef.current;
-      if (cPoints.length && cState.segments.length) {
-        const isCompleted = cState.completed;
-        const completedAt = cState.completedAt ?? 0;
-        let glowFactor = 0;
-        if (isCompleted && !reducedMotion) {
-          const gElapsed = now - completedAt;
-          if (gElapsed < 700) glowFactor = 1 - gElapsed / 700;
-        }
-
-        for (let s = 0; s < cState.segments.length; s++) {
-          const seg = cState.segments[s];
-          const a = cPoints[seg.from];
-          const b = cPoints[seg.to];
-          if (!a || !b) continue;
-          const segElapsed = now - seg.start;
-          const segDur = reducedMotion ? 0 : 360;
-          const tProg = segDur === 0 ? 1 : Math.min(1, segElapsed / segDur);
-          const bx = a.x + (b.x - a.x) * tProg;
-          const by = a.y + (b.y - a.y) * tProg;
-
+      if (burstRef.current) {
+        const elapsed = now - burstRef.current.start;
+        const dur = 400;
+        if (elapsed < dur) {
+          const t = elapsed / dur;
+          const alpha = 1 - t;
           ctx.save();
-          const baseAlpha = isCompleted ? 0.38 : 0.32;
-          const alpha = baseAlpha + glowFactor * 0.42;
-          ctx.globalAlpha = alpha;
-          ctx.strokeStyle = CONSTELLATION_LINE_COLOR;
-          ctx.lineWidth = isCompleted ? 1.35 : 1.05;
-          if (glowFactor > 0) {
-            ctx.shadowColor = CONSTELLATION_LINE_COLOR;
-            ctx.shadowBlur = 8 * glowFactor;
-          }
-          ctx.lineCap = 'round';
+          ctx.globalAlpha = alpha * 0.35;
+          ctx.strokeStyle = burstRef.current.color;
+          ctx.lineWidth = 1.2;
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(bx, by);
+          ctx.arc(burstRef.current.x, burstRef.current.y, 4 + t * 18, 0, Math.PI * 2);
           ctx.stroke();
           ctx.restore();
+          ctx.save();
+          ctx.globalAlpha = alpha * 0.9;
+          ctx.fillStyle = burstRef.current.color;
+          for (let k = 0; k < 5; k++) {
+            const ang = (k / 5) * Math.PI * 2 + t * 0.8;
+            const r = 3 + t * 14 + (k % 2) * 4;
+            const px = burstRef.current.x + Math.cos(ang) * r;
+            const py = burstRef.current.y + Math.sin(ang) * r;
+            ctx.beginPath();
+            ctx.arc(px, py, 1.6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        } else {
+          burstRef.current = null;
         }
-      }
-
-      // constellation points — normal-looking stars, pulse on correct click
-      for (let i = 0; i < cPoints.length; i++) {
-        const cp = cPoints[i];
-        const isDone = i < cState.nextIndex || cState.completed;
-        ctx.save();
-        const foundAlpha = isDone ? 0.98 : 0.88;
-        const pulseActive = now < cp.pulseUntil;
-        if (pulseActive && !reducedMotion) {
-          const pT = (cp.pulseUntil - now) / 380;
-          ctx.globalAlpha = 0.28 * pT;
-          ctx.fillStyle = CONSTELLATION_LINE_COLOR;
-          ctx.beginPath();
-          ctx.arc(cp.x, cp.y, cp.radius * (3.2 + (1 - pT) * 1.2), 0, Math.PI * 2);
-          ctx.fill();
-        } else if (pulseActive && reducedMotion) {
-          ctx.globalAlpha = 0.22;
-          ctx.fillStyle = CONSTELLATION_LINE_COLOR;
-          ctx.beginPath();
-          ctx.arc(cp.x, cp.y, cp.radius * 3.0, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.globalAlpha = foundAlpha;
-        ctx.fillStyle = cp.color;
-        if (cState.completed) {
-          ctx.shadowColor = CONSTELLATION_LINE_COLOR;
-          ctx.shadowBlur = 4;
-        }
-        ctx.beginPath();
-        ctx.arc(cp.x, cp.y, cp.radius, 0, Math.PI * 2);
-        ctx.fill();
-        if (isDone) {
-          ctx.globalAlpha = 0.18;
-          ctx.fillStyle = CONSTELLATION_LINE_COLOR;
-          ctx.beginPath();
-          ctx.arc(cp.x, cp.y, cp.radius * 2.6, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.restore();
       }
 
       if (isVisible && isTabActive) animId = requestAnimationFrame(drawFrame);
@@ -427,46 +427,23 @@ export default function Starfield() {
       const rect = heroSection.getBoundingClientRect();
       const cx = e.clientX - rect.left;
       const cy = e.clientY - rect.top;
-
-      const cPoints = constellationRef.current;
-      const cState = constellationStateRef.current;
-      if (cState.completed) return;
-      let hitIndex = -1;
-      let hitDist = Infinity;
-      for (let i = 0; i < cPoints.length; i++) {
-        const dx = cx - cPoints[i].x;
-        const dy = cy - cPoints[i].y;
-        const d = Math.hypot(dx, dy);
-        if (d <= CONSTELLATION_HIT_RADIUS && d < hitDist) {
-          hitDist = d;
-          hitIndex = i;
+      const list = shootingStarsRef.current;
+      for (let i = list.length - 1; i >= 0; i--) {
+        const ss = list[i];
+        if (ss.age / ss.maxAge >= 1) continue;
+        const dx = cx - ss.headX;
+        const dy = cy - ss.headY;
+        if (Math.hypot(dx, dy) <= CATCH_RADIUS) {
+          const hx = ss.headX, hy = ss.headY, col = ss.color;
+          list.splice(i, 1);
+          burstRef.current = { x: hx, y: hy, color: col, start: performance.now() };
+          setScore((s) => s + 1);
+          setShowCounter(true);
+          setIsPulsing(true);
+          window.setTimeout(() => setIsPulsing(false), 420);
+          e.stopPropagation();
+          break;
         }
-      }
-      if (hitIndex === -1) return;
-      if (hitIndex !== cState.nextIndex) return;
-
-      const now = performance.now();
-      cPoints[hitIndex].pulseUntil = now + 380;
-
-      if (cState.nextIndex > 0) {
-        const from = cState.nextIndex - 1;
-        const to = hitIndex;
-        cState.segments.push({ from, to, start: now });
-      }
-
-      cState.nextIndex += 1;
-      e.stopPropagation();
-
-      if (cState.nextIndex >= cPoints.length) {
-        cState.completed = true;
-        cState.completedAt = now;
-        let sx = 0, sy = 0;
-        for (let i = 0; i < cPoints.length; i++) { sx += cPoints[i].x; sy += cPoints[i].y; }
-        const cx0 = sx / cPoints.length;
-        const cy0 = sy / cPoints.length;
-        setToastPos({ x: cx0, y: cy0 + 34 });
-        setShowToast(true);
-        window.setTimeout(() => setShowToast(false), 2600);
       }
     };
 
@@ -478,6 +455,7 @@ export default function Starfield() {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
+      if (shootTimeout) clearTimeout(shootTimeout);
       if (heroSection) {
         heroSection.removeEventListener('pointermove', handlePointerMove);
         heroSection.removeEventListener('pointerleave', handlePointerLeave);
@@ -489,14 +467,14 @@ export default function Starfield() {
   return (
     <>
       <canvas ref={canvasRef} className={classes.starfieldCanvas} aria-hidden="true" />
-      {showToast && toastPos && (
+      {showCounter && (
         <div
-          className={classes.constellationToast}
+          className={`${classes.scoreCounter} ${classes.visible} ${isPulsing ? classes.pulse : ''}`}
+          aria-label={`Caught ${score} shooting stars`}
           role="status"
           aria-live="polite"
-          style={{ left: `${toastPos.x}px`, top: `${toastPos.y}px` }}
         >
-          constellation found
+          ⭐ {score}
         </div>
       )}
     </>
