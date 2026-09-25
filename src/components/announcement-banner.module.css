@@ -1,15 +1,12 @@
 .bannerContainer {
   position: relative;
   width: 100%;
-  margin: var(--space-4) 0;
-  background: var(--surface);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  margin: var(--space-3) 0;
+  background: var(--surface-raised);
+  border: 2.5px solid var(--border);
   overflow: hidden;
-  height: 45px;
-  box-shadow: var(--shadow-sm);
+  height: 48px;
+  box-shadow: 4px 4px 0 var(--border);
 }
 
 .bannerContent {
@@ -31,13 +28,14 @@
 }
 
 .textItem {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  font-family: 'Georgia', 'Times New Roman', serif;
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
   flex-shrink: 0;
-  opacity: 0.8;
+  opacity: 0.9;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

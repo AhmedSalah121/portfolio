@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
   /* Z-index scale */
@@ -6,20 +6,32 @@
   --z-sidebar: 1000;
   --z-navbar: 1100;
 
-  /* Design tokens */
-  --bg: #0d1117;
-  --surface: rgba(31, 41, 55, 0.85);
-  --surface-raised: rgba(55, 65, 81, 0.6);
-  --border: rgba(75, 85, 99, 0.35);
-  --text: #f3f4f6;
-  --text-muted: #9ca3af;
-  --accent: #818cf8;
-  --accent-2: #a78bfa;
-  --success: #10b981;
+  /* Vintage Newspaper / Neo-Brutalist Zine Tokens */
+  --bg: #0f0d0a; /* Dark brown-black base */
+  
+  --surface: #c5baa3; /* Darker warm vintage newsprint paper page */
+  --surface-raised: #c5baa3; /* Matching dark warm cream paper card background */
+  --surface-dark: #121612;
+  
+  --border: #1a1a1a; /* Ink black sharp border */
+  --border-muted: rgba(26, 26, 26, 0.25);
+  
+  --text: #1a1a1a; /* Solid ink black text on newsprint page */
+  --text-muted: #4a4d4a; /* Editorial muted text */
+  --text-on-dark: #c5baa3;
+  
+  --accent: #d92626; /* Crimson newsprint red for highlights & badges */
+  --accent-2: #c82333;
+  --accent-orange: #d9531e; /* Warm vintage burnt orange accent for dividers & highlights */
+  --accent-yellow: #ffe600; /* Yellow highlighter effect */
+  --success: #15803d;
 
-  --radius-sm: 0.375rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', monospace, Courier;
+
+  --radius-sm: 0px !important;
+  --radius-md: 0px !important;
+  --radius-lg: 0px !important;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -30,20 +42,25 @@
   --space-7: 3rem;
   --space-8: 4rem;
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-sm: 4px 4px 0 #000000;
+  --shadow-md: 6px 6px 0 #000000;
+  --shadow-lg: 10px 10px 0 #000000;
+  --shadow-card: 8px 8px 0 #000000, 0 16px 40px rgba(0, 0, 0, 0.65);
+  --shadow-card-hover: 10px 10px 0 #000000, 0 20px 48px rgba(0, 0, 0, 0.75);
 
-  --ease: 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  --ease: 0.2s ease-in-out;
 
-  --navbar-height: clamp(70px, 8vh, 96px);
+  --navbar-height: 64px;
 
-  font-family: 'Poppins', 'Playfair Display', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: var(--font-serif);
+  line-height: 1.6;
   font-weight: 400;
 
-  color-scheme: dark;
+  color-scheme: dark light;
   color: var(--text);
-  background: linear-gradient(135deg, #0d1117 0%, #161b22 30%, #16213e 100%);
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 30%, #1c1712 0%, #16120d 50%, #0f0d0a 100%);
+  background-attachment: fixed;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -53,44 +70,67 @@
   scroll-behavior: smooth;
 }
 
+/* Global Sharp Edges Enforcement */
+*, *::before, *::after {
+  border-radius: 0 !important;
+}
+
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
 }
 
 body {
   margin: 0;
-  padding-top: var(--navbar-height);
+  padding-top: 0;
   min-width: 320px;
   min-height: 100dvh;
   overflow-x: hidden;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 30%, #1c1712 0%, #16120d 50%, #0f0d0a 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-serif);
 }
 
 .container {
   width: min(1120px, 100% - 3rem);
   margin-inline: auto;
+  margin-top: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  color: var(--text);
+  box-sizing: border-box;
 }
 
 .sectionHeader {
   text-align: center;
   margin-bottom: var(--space-7);
+  padding-bottom: var(--space-4);
+  border-bottom: 2px solid #4a3f30;
 }
 
-/* Section headers stay stationary in normal document flow */
-
 .sectionTitle {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
+  font-weight: 800;
+  font-style: italic;
   margin: 0 0 var(--space-2);
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-on-dark);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.9);
 }
 
 .sectionSubtitle {
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
-  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -115,3 +155,4 @@ body {
     animation: none !important;
   }
 }
+

@@ -37,6 +37,10 @@ function App() {
         </section>
 
         <section id='techstack' className={classes.section}>
+          <header className='sectionHeader'>
+            <h2 className='sectionTitle'>Tech Stack</h2>
+            <p className='sectionSubtitle'>Languages, frameworks, and tools I work with daily</p>
+          </header>
           <TechStack />
         </section>
 
@@ -44,7 +48,13 @@ function App() {
           <AnnouncementBanner />
         </Reveal>
 
-        <Footer {...contactInfo} />
+        <section id='contact' className={classes.section}>
+          <header className='sectionHeader'>
+            <h2 className='sectionTitle'>Contact</h2>
+            <p className='sectionSubtitle'>Get in touch or connect on social platforms</p>
+          </header>
+          <Footer {...contactInfo} />
+        </section>
       </main>
       <BackToTop />
       <TerminalEasterEgg />

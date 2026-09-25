@@ -1,12 +1,10 @@
 .footer {
-  background: var(--surface);
+  background: var(--surface-raised);
   color: var(--text);
-  padding: var(--space-7) var(--space-6) var(--space-4);
-  margin-top: var(--space-6);
+  padding: var(--space-7) var(--space-6) var(--space-5);
   width: 100%;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  border: 2.5px solid var(--border);
+  box-shadow: var(--shadow-card);
   box-sizing: border-box;
 }
 
@@ -24,11 +22,14 @@
 }
 
 .footerTitle {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 800;
+  font-style: italic;
   color: var(--text);
   margin: 0 0 var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .contactItem {
@@ -39,8 +40,12 @@
 }
 
 .label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   min-width: 70px;
 }
 
@@ -56,13 +61,15 @@
 }
 
 .link {
+  font-family: var(--font-mono);
   color: var(--accent);
   text-decoration: none;
+  font-weight: 600;
   transition: color var(--ease);
 }
 
 .link:hover {
-  color: var(--accent-2);
+  color: var(--border);
   text-decoration: underline;
 }
 
@@ -73,25 +80,32 @@
 }
 
 .socialLink {
-  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
   text-decoration: none;
   padding: var(--space-2) var(--space-4);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  transition: all var(--ease);
+  border: 2px solid var(--border);
+  box-shadow: 3px 3px 0 var(--border);
+  transition: all 150ms ease;
   text-align: center;
-  background: var(--surface-raised);
+  background: var(--surface);
 }
 
 .socialLink:hover {
-  background: rgba(129, 140, 248, 0.1);
-  border-color: var(--accent);
-  transform: translateY(-2px);
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 4px 4px 0 var(--border);
+  transform: translate(-1px, -1px);
 }
 
 .aboutText {
-  color: var(--text-muted);
-  line-height: 1.6;
+  font-family: var(--font-serif);
+  color: var(--text);
+  line-height: 1.65;
   font-size: 0.95rem;
   margin: 0;
 }
@@ -99,31 +113,57 @@
 .footerBottom {
   margin-top: var(--space-6);
   padding-top: var(--space-5);
-  border-top: 1px solid var(--border);
+  border-top: 2px solid var(--border);
   text-align: center;
+  font-family: var(--font-mono);
 }
 
 .footerBottom p {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.terminalTriggerWrapper {
+  margin-top: 12px;
 }
 
 .konamiHint {
-  display: inline-block;
-  margin-top: 10px;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  color: var(--text-muted);
-  opacity: 0.18;
-  user-select: none;
-  cursor: default;
-  transition: opacity 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  box-shadow: 3px 3px 0 var(--border);
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.konamiHint code {
+  background: var(--accent);
+  color: #ffffff;
+  padding: 1px 6px;
+  font-weight: 700;
 }
 
 .konamiHint:hover {
-  opacity: 0.58;
+  background: var(--accent);
+  color: #ffffff;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--border);
+}
+
+.konamiHint:hover code {
+  background: var(--border);
 }
 
 @media (max-width: 767.98px) {

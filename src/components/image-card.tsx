@@ -14,7 +14,6 @@ function ImageCard(props: ImageCardProps) {
     summary,
     achievements,
     technologies,
-    fullDescription,
     images,
     layout = 'left',
     autoSlide = true,
@@ -242,12 +241,6 @@ function ImageCard(props: ImageCardProps) {
           </span>
         ))}
       </div>
-      {fullDescription && (
-        <details className={classes.readMore}>
-          <summary>Read more</summary>
-          <p className={classes.fullDescription}>{fullDescription}</p>
-        </details>
-      )}
     </>
   );
 
@@ -277,11 +270,7 @@ function ImageCard(props: ImageCardProps) {
             <img
               key={index}
               src={image}
-              className={
-                mediaType === 'screenshot-mobile'
-                  ? classes.portfolioCardImageMobile
-                  : classes.portfolioCardImage
-              }
+              className={classes.portfolioCardImage}
               alt={`${role} at ${company} - screenshot ${index + 1}`}
               loading='lazy'
               decoding='async'
@@ -413,16 +402,16 @@ function ImageCard(props: ImageCardProps) {
   };
 
   const renderMediaColumn = () => {
-    if (mediaType === 'none' || !hasImages) {
-      return (
-        <div className={classes.noImagePlaceholder} aria-hidden='true'>
-          <span className={classes.noImageIcon}>💼</span>
-        </div>
-      );
+    if (mediaType === 'none') {
+      return null;
     }
 
     if (mediaType === 'logo') {
       return renderLogoPanel();
+    }
+
+    if (!hasImages) {
+      return null;
     }
 
     const containerClass =
@@ -438,13 +427,7 @@ function ImageCard(props: ImageCardProps) {
       <Reveal>
         <article className={`${cardClass} ${classes.cardSurface}`}>
           {renderMediaColumn()}
-          <div
-            className={
-              mediaType === 'screenshot-mobile'
-                ? classes.portfolioContentContainerMobile
-                : classes.portfolioContentContainerHorizontal
-            }
-          >
+          <div className={classes.portfolioContentContainer}>
             {renderContent()}
           </div>
         </article>

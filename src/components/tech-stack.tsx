@@ -3,11 +3,7 @@ import Reveal from './reveal';
 import classes from './tech-stack.module.css';
 import { frontendTechs, backendTechs, tools, aimlTechs } from '../data/tech';
 
-interface TechStackProps {
-  title?: string;
-}
-
-function TechStack({ title = 'Tech Stack' }: TechStackProps) {
+function TechStack() {
   const renderTechSection = (
     techs: { name: string; icon: string }[],
     sectionTitle: string,
@@ -38,11 +34,6 @@ function TechStack({ title = 'Tech Stack' }: TechStackProps) {
 
   return (
     <div className={classes.techStack}>
-      <header className="sectionHeader">
-        <h2 className="sectionTitle">{title}</h2>
-        <p className="sectionSubtitle">Languages, frameworks, and tools I work with daily</p>
-      </header>
-
       <div className={classes.techSections}>
         {renderTechSection(frontendTechs, 'Frontend', 0)}
         {renderTechSection(backendTechs, 'Backend', 1)}

@@ -56,11 +56,7 @@ function Footer({
   socialLinks,
 }: FooterProps) {
   return (
-    <footer id='contact' className={classes.footer}>
-      <header className='sectionHeader'>
-        <h2 className='sectionTitle'>Contact</h2>
-        <p className='sectionSubtitle'>Get in touch or connect on social platforms</p>
-      </header>
+    <footer className={classes.footer}>
       <div className={classes.footerContainer}>
         <Reveal delay={0}>
           <div className={classes.footerSection}>
@@ -158,9 +154,11 @@ function Footer({
         <p>
           &copy; {new Date().getFullYear()} {name}. All rights reserved.
         </p>
-        <span className={classes.konamiHint} aria-hidden="true" title="Konami code">
-          ↑↑↓↓←→←→BA
-        </span>
+        <div className={classes.terminalTriggerWrapper}>
+          <span className={classes.konamiHint} title="Interactive Terminal Easter Egg">
+            💻 Terminal: Press <code>~</code> or <code>↑↑↓↓←→←→BA</code>
+          </span>
+        </div>
       </div>
     </footer>
   );
