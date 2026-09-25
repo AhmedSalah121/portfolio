@@ -209,18 +209,32 @@ function ImageCard(props: ImageCardProps) {
       ? classes.portfolioImageCardHorizontalReverse
       : classes.portfolioImageCardHorizontal;
 
+  const isCurrentRole =
+    props.isCurrent ??
+    (dateRange.toLowerCase().includes('present') || dateRange.toLowerCase().includes('current'));
+
   const renderContent = () => (
     <>
       <h3 className={classes.portfolioCardTitle}>{role}</h3>
       <p className={classes.portfolioCardMeta}>
-        {company} · {dateRange}
+        <span>
+          {company} · {dateRange}
+        </span>
+        {isCurrentRole && (
+          <span className={classes.currentBadge} title='Currently working here'>
+            <span className={classes.statusDot} aria-hidden='true' />
+            <span>Current</span>
+          </span>
+        )}
       </p>
-      <p className={classes.portfolioCardSummary}>{summary}</p>
-      <ul className={classes.achievementList}>
-        {achievements.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+      {summary && <p className={classes.portfolioCardSummary}>{summary}</p>}
+      {achievements && achievements.length > 0 && (
+        <ul className={classes.achievementList}>
+          {achievements.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      )}
       <div className={classes.techChips}>
         {technologies.map((tech, index) => (
           <span key={index} className={classes.chip}>
@@ -228,10 +242,12 @@ function ImageCard(props: ImageCardProps) {
           </span>
         ))}
       </div>
-      <details className={classes.readMore}>
-        <summary>Read more</summary>
-        <p className={classes.fullDescription}>{fullDescription}</p>
-      </details>
+      {fullDescription && (
+        <details className={classes.readMore}>
+          <summary>Read more</summary>
+          <p className={classes.fullDescription}>{fullDescription}</p>
+        </details>
+      )}
     </>
   );
 

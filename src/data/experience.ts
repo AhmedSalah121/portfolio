@@ -2,19 +2,40 @@ export interface Experience {
   role: string;
   company: string;
   dateRange: string;
-  summary: string;
-  achievements: string[];
+  summary?: string;
+  achievements?: string[];
   technologies: string[];
-  fullDescription: string;
+  fullDescription?: string;
   images: string[];
   layout: 'left' | 'right';
   mediaType?: 'screenshot-desktop' | 'screenshot-mobile' | 'logo' | 'none';
   screenshotType?: 'mobile' | 'desktop';
   autoSlide?: boolean;
   slideInterval?: number;
+  isCurrent?: boolean;
 }
 
 export const experiences: Experience[] = [
+  {
+    role: 'Software Engineer',
+    company: 'FOE',
+    dateRange: 'June 2026 — Present',
+    isCurrent: true,
+    // TODO: add summary + achievement bullets
+    achievements: [],
+    technologies: [
+      'Flutter',
+      'Dart',
+      'ASP.NET',
+      'C#',
+      'SQL Server',
+      'Green-Blue Deployment',
+    ],
+    fullDescription: '',
+    images: [],
+    layout: 'left',
+    mediaType: 'logo',
+  },
   {
     role: 'Backend Engineer',
     company: 'Iorto Lounge',
@@ -48,7 +69,7 @@ export const experiences: Experience[] = [
       './iorto4.jpeg',
       './iorto5.jpeg',
     ],
-    layout: 'left',
+    layout: 'right',
     mediaType: 'screenshot-mobile',
     screenshotType: 'mobile',
     autoSlide: true,
@@ -76,7 +97,7 @@ export const experiences: Experience[] = [
     fullDescription:
       'Contributed to the MVP development of a bill payment and scan-to-pay system. Developed the business logic for bill inquiry, enabling accurate and efficient bill retrieval. Designed and prepared the database schema to support bill lookup and transaction records. Technology Stack: Golang, gRPC, GraphQL, PostgreSQL, golang-migrate, go-sqlmock, Testify, GitHub Actions, Docker.',
     images: ['./flash-logo.svg'],
-    layout: 'right',
+    layout: 'left',
     mediaType: 'logo',
     screenshotType: 'desktop',
     autoSlide: true,
@@ -106,7 +127,7 @@ export const experiences: Experience[] = [
     fullDescription:
       'Fine-tuned DistilBERT model using a dataset of 400,000 amazon reviews using PyTorch, Scikit-Learn frameworks and Pandas, Matplotlib in the preprocessing part. The dataset was splitted into 80% training, 20% testing. Preprocessing: Remove special characters and tokenized using DistilBertTokenizer. Training: Fine-tuned DistilBERT with AdamW optimizer, cross-entropy loss function, and a learning rate scheduler. Deployment: Integrated into a Flask API that takes the product link, scrapes reviews live on hit, runs them through the preprocessing pipeline and finally to the model, and visualizes positive vs. negative sentiment using Matplotlib. Technologies Stack: Python, Flask, NLP, PyTorch, scikit-learn, BERT, pandas, matplotlib, re, git.',
     images: ['./grad1.jpeg', './grad2.jpeg', './grad3.jpeg', './grad4.jpeg'],
-    layout: 'left',
+    layout: 'right',
     mediaType: 'screenshot-desktop',
     screenshotType: 'desktop',
     autoSlide: true,

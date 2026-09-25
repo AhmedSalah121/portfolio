@@ -59,7 +59,7 @@
 }
 
 .logoPanel {
-  width: 35%;
+  width: 25%;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -85,10 +85,10 @@
 }
 
 .logoImage {
-  width: min(45%, 180px);
-  min-width: 90px;
+  width: min(60%, 180px);
+  min-width: 80px;
   height: auto;
-  max-height: 140px;
+  max-height: 120px;
   object-fit: contain;
   transition: transform var(--ease);
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
@@ -145,23 +145,21 @@
 }
 
 .portfolioContentContainerHorizontal {
-  width: 65%;
-  padding: var(--space-5);
+  padding: var(--space-6);
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: var(--space-3);
+  justify-content: center;
+  gap: var(--space-4);
 }
 
 .portfolioContentContainerMobile {
-  width: 75%;
-  padding: var(--space-5);
+  padding: var(--space-6);
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: var(--space-3);
+  justify-content: center;
+  gap: var(--space-4);
 }
 
 .noImageCard {
@@ -216,6 +214,56 @@
   font-size: 0.875rem;
   color: var(--text-muted);
   margin: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.currentBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 999px;
+  line-height: 1.2;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--success);
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.statusDot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background-color: var(--success);
+  opacity: 0.7;
+  animation: statusPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes statusPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
 }
 
 .portfolioCardSummary {
@@ -567,6 +615,11 @@
   .lightboxImage {
     animation: none;
   }
+
+  .statusDot::after {
+    animation: none;
+    display: none;
+  }
 }
 
 @media (max-width: 767.98px) {
@@ -579,7 +632,8 @@
 
   .logoPanel {
     width: 100%;
-    height: 160px;
+    min-height: 110px;
+    height: auto;
     padding: var(--space-4);
     border-right: none;
     border-left: none;
@@ -632,9 +686,12 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023.98px) {
-  .portfolioImageContainerHorizontal,
-  .logoPanel {
+  .portfolioImageContainerHorizontal {
     width: 35%;
+  }
+
+  .logoPanel {
+    width: 28%;
   }
 
   .portfolioImageContainerMobile {
@@ -642,11 +699,13 @@
   }
 
   .portfolioContentContainerHorizontal {
-    width: 65%;
+    flex: 1;
+    padding: var(--space-5);
   }
 
   .portfolioContentContainerMobile {
-    width: 72%;
+    flex: 1;
+    padding: var(--space-5);
   }
 
   .noImagePlaceholder {
@@ -654,14 +713,17 @@
   }
 
   .noImageContent {
-    width: 65%;
+    flex: 1;
   }
 }
 
 @media (min-width: 1024px) {
-  .portfolioImageContainerHorizontal,
-  .logoPanel {
+  .portfolioImageContainerHorizontal {
     width: 35%;
+  }
+
+  .logoPanel {
+    width: 25%;
   }
 
   .portfolioImageContainerMobile {
@@ -669,12 +731,12 @@
   }
 
   .portfolioContentContainerHorizontal {
-    width: 65%;
+    flex: 1;
     padding: var(--space-6);
   }
 
   .portfolioContentContainerMobile {
-    width: 76%;
+    flex: 1;
     padding: var(--space-6);
   }
 
@@ -683,7 +745,7 @@
   }
 
   .noImageContent {
-    width: 65%;
+    flex: 1;
     padding: var(--space-6);
   }
 
