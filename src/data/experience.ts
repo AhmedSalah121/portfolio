@@ -1,6 +1,7 @@
 export interface Experience {
   role: string;
   company: string;
+  logo?: string;
   dateRange: string;
   summary?: string;
   achievements?: string[];
@@ -39,6 +40,7 @@ export const experiences: Experience[] = [
   {
     role: 'Backend Engineer',
     company: 'Iorto Lounge',
+    logo: './iorto-logo.svg',
     dateRange: '2024/12 - 2025/08',
     summary:
       'Built a Table Reservation System with NodeJS & TypeScript using the MVC architecture, serving both a management dashboard and a mobile app. Applied TDD principles with Jest for unit and integration testing across controllers and database repositories.',
@@ -78,6 +80,7 @@ export const experiences: Experience[] = [
   {
     role: 'Backend Engineer Internship',
     company: 'Flash',
+    logo: './flash-logo.svg',
     dateRange: '2022/01 - 2022/03',
     summary:
       'Contributed to the MVP development of a bill payment and scan-to-pay system. Developed the business logic for bill inquiry and designed the database schema to support bill lookup and transaction records.',

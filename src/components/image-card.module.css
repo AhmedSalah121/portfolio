@@ -1,225 +1,157 @@
-.cardSurface {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  overflow: visible;
+.portfolioCard {
+  background-color: var(--surface-raised);
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.018),
+    rgba(0, 0, 0, 0.018) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  border: 2.5px solid var(--border);
+  box-shadow: 6px 6px 0 #000000, 0 12px 28px rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  position: relative;
 }
 
-.portfolioImageCardHorizontal {
-  display: flex;
+.portfolioCard:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 #000000, 0 18px 38px rgba(0, 0, 0, 0.55);
+}
+
+/* Screenshot layout: layout='right' means Content on left, Media on right */
+.portfolioCardReverse {
   flex-direction: row;
-  align-items: stretch;
-  gap: var(--space-5);
-  width: 100%;
-  max-width: 100%;
 }
 
-.portfolioImageCardHorizontalReverse {
-  display: flex;
+.portfolioCardReverse .mediaSection {
+  border-left: 2px solid var(--border);
+}
+
+/* Screenshot layout: layout='left' means Media on left, Content on right */
+.portfolioCardNormal {
   flex-direction: row-reverse;
-  align-items: stretch;
-  gap: var(--space-5);
-  width: 100%;
-  max-width: 100%;
 }
 
-.portfolioImageContainerHorizontal {
-  width: 42%;
-  flex-shrink: 0;
-  position: relative;
-  background: var(--surface-raised);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 2.5px solid var(--border);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-  align-self: stretch;
-  padding: var(--space-2);
-  box-sizing: border-box;
-}
-
-.portfolioImageContainerHorizontal:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.portfolioImageContainerMobile {
-  width: 220px;
-  max-width: 30%;
-  flex-shrink: 0;
-  position: relative;
-  background: var(--surface-raised);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 2.5px solid var(--border);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-  align-self: stretch;
-  padding: var(--space-2);
-  box-sizing: border-box;
-}
-
-.portfolioImageContainerMobile:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.logoPanel {
-  width: 25%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-6);
-  background: var(--surface-raised);
-  border: 2.5px solid var(--border);
-  box-shadow: var(--shadow-card);
-  box-sizing: border-box;
-  overflow: hidden;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-  align-self: stretch;
-}
-
-.logoPanel:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.logoImage {
-  width: min(65%, 180px);
-  min-width: 80px;
-  height: auto;
-  max-height: 120px;
-  object-fit: contain;
-  transition: transform var(--ease);
-}
-
-.logoPanel:hover .logoImage {
-  transform: scale(1.04);
-}
-
-.logoMonogram {
-  font-family: var(--font-serif);
-  font-size: 1.75rem;
-  font-weight: 900;
-  font-style: italic;
-  color: var(--accent);
-  letter-spacing: 0.02em;
-}
-
-.slideShowContainer {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  overflow: hidden;
-}
-
-.slideShowWrapper {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.5s ease-in-out;
-  position: relative;
-}
-
-.portfolioCardImage {
-  width: 100%;
-  height: 100%;
-  min-width: 100%;
-  flex-shrink: 0;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  border-radius: 4px;
-}
-
-.portfolioContentContainer,
-.portfolioContentContainerHorizontal,
-.portfolioContentContainerMobile {
-  padding: var(--space-6);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--space-4);
-  background: var(--surface-raised);
-  border: 2.5px solid var(--border);
-  box-shadow: var(--shadow-card);
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.portfolioContentContainer:hover,
-.portfolioContentContainerHorizontal:hover,
-.portfolioContentContainerMobile:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.noImageCard {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  width: 100%;
-  max-width: 100%;
-}
-
-.noImageCardReverse {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: stretch;
-  width: 100%;
-  max-width: 100%;
-}
-
-.noImagePlaceholder {
-  width: 35%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--surface);
-  aspect-ratio: 16 / 9;
-  min-height: 120px;
+.portfolioCardNormal .mediaSection {
   border-right: 2px solid var(--border);
 }
 
-.noImageIcon {
-  font-size: 2.5rem;
-  opacity: 0.7;
+/* Full width layout for logo-based and text-only entries */
+.portfolioCardFull {
+  flex-direction: column;
 }
 
-.noImageContent {
-  width: 65%;
-  padding: var(--space-5);
+/* ==========================================================================
+   Content Column & LinkedIn Style Header
+   ========================================================================== */
+
+.portfolioContentContainer {
   flex: 1;
+  min-width: 0;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+  box-sizing: border-box;
+}
+
+.portfolioContentContainerFull {
+  width: 100%;
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  box-sizing: border-box;
+}
+
+.experienceHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.experienceHeaderInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Company logo taking the whole area without a white or dark background */
+.logoPlaceholder {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  cursor: default;
+}
+
+.logoPlaceholderImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.monogramPlaceholder {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  border-radius: 8px;
+  background: rgba(26, 26, 26, 0.06);
+  border: 1.5px solid var(--border);
+  box-shadow: 2px 2px 0 var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.logoPlaceholderMonogram {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  line-height: 1;
 }
 
 .portfolioCardTitle {
   font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 2.8vw, 1.7rem);
+  font-size: clamp(1.35rem, 2.5vw, 1.7rem);
   font-weight: 800;
   font-style: italic;
   color: var(--text);
   margin: 0;
   letter-spacing: -0.01em;
+  line-height: 1.25;
 }
 
 .portfolioCardMeta {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--text-muted);
   margin: 0;
   display: flex;
@@ -228,26 +160,30 @@
   gap: var(--space-2);
 }
 
+.metaCompanyDate {
+  color: var(--text-muted);
+}
+
 .currentBadge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 6px;
   padding: 2px 8px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: 0.68rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #ffffff;
   background: var(--accent);
-  border: 1.5px solid var(--border);
+  border: 1px solid var(--border);
   box-shadow: 2px 2px 0 var(--border);
   line-height: 1.2;
 }
 
 .statusDot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background-color: #ffffff;
   position: relative;
   display: inline-block;
@@ -280,62 +216,88 @@
   color: var(--text);
   line-height: 1.65;
   margin: 0;
-  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  font-size: clamp(0.92rem, 1.8vw, 1.02rem);
 }
 
 .achievementList {
   font-family: var(--font-serif);
   margin: 0;
-  padding-left: var(--space-5);
+  padding: 0;
+  list-style: none;
   color: var(--text);
-  font-size: clamp(0.88rem, 1.8vw, 0.98rem);
-  line-height: 1.65;
+  font-size: clamp(0.88rem, 1.7vw, 0.96rem);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .achievementList li {
-  margin-bottom: var(--space-2);
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.achievementList li::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent-orange);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .techChips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: 6px;
+  margin-top: var(--space-2);
 }
 
 .chip {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 4px 10px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  box-shadow: 2px 2px 0 var(--border);
+  padding: 3px 8px;
+  background: rgba(26, 26, 26, 0.06);
+  border: 1px solid rgba(26, 26, 26, 0.35);
   color: var(--text);
+  line-height: 1.3;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
 }
 
-.readMore {
-  margin-top: var(--space-2);
+.chip:hover {
+  background: var(--border);
+  color: var(--surface);
+  border-color: var(--border);
 }
 
-.readMore summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 0.875rem;
-  font-weight: 500;
-  list-style: none;
+/* ==========================================================================
+   Media Section - Screenshot Galleries (Iorto, Grad Project)
+   ========================================================================== */
+
+.mediaSection {
+  position: relative;
+  background: rgba(0, 0, 0, 0.035);
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.readMore summary::-webkit-details-marker {
-  display: none;
+.mediaSectionDesktop {
+  width: 44%;
+  flex-shrink: 0;
 }
 
-.fullDescription {
-  color: var(--text-muted);
-  line-height: 1.625;
-  margin: var(--space-3) 0 0;
-  font-size: 0.875rem;
+.mediaSectionMobile {
+  width: 32%;
+  min-width: 240px;
+  flex-shrink: 0;
 }
 
 .slideshowControls {
@@ -343,99 +305,203 @@
   width: 100%;
   height: 100%;
   outline: none;
+  display: flex;
+  flex-direction: column;
 }
 
-.slideshowControls img {
+.slideShowContainer {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 260px;
+  display: flex;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.slideShowContainerMobile {
+  min-height: 360px;
+}
+
+.slideShowWrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.45s ease-in-out;
+  position: relative;
+}
+
+.slideItem {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Desktop Exhibit Presentation */
+.desktopDeviceFrame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  box-sizing: border-box;
+  position: relative;
   cursor: zoom-in;
 }
 
-.slideBtn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: var(--text);
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 1;
-  opacity: 0;
-  transition: opacity var(--ease), background var(--ease);
-  z-index: 2;
+.portfolioCardImage {
+  width: 100%;
+  height: auto;
+  max-height: 290px;
+  object-fit: contain;
+  display: block;
+  border: 1.5px solid rgba(26, 26, 26, 0.45);
+  background: #ffffff;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  transition: transform var(--ease);
 }
 
-.slideshowControls:hover .slideBtn,
-.slideshowControls:focus-within .slideBtn {
+.desktopDeviceFrame:hover .portfolioCardImage {
+  transform: scale(1.015);
+}
+
+.enlargeHint {
+  position: absolute;
+  bottom: 22px;
+  right: 22px;
+  background: rgba(26, 26, 26, 0.88);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity var(--ease);
+  pointer-events: none;
+}
+
+.desktopDeviceFrame:hover .enlargeHint {
   opacity: 1;
 }
 
+/* Mobile Exhibit Presentation */
+.mobileDeviceBezel {
+  height: 340px;
+  aspect-ratio: 9 / 19.5;
+  width: auto;
+  max-width: 90%;
+  margin: 10px auto;
+  border: 2.5px solid var(--border);
+  background: #121212;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: zoom-in;
+  transition: transform var(--ease);
+}
+
+.mobileDeviceBezel:hover {
+  transform: scale(1.02);
+}
+
+.portfolioCardImageMobile {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Carousel Bottom Controls */
+.carouselFooterControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--surface);
+  border-top: 1.5px solid var(--border);
+  gap: var(--space-2);
+  box-sizing: border-box;
+}
+
+.slideBtn {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-raised);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--border);
+  transition: transform 120ms ease, background-color 120ms ease, color 120ms ease;
+  user-select: none;
+  padding: 0;
+}
+
 .slideBtn:hover {
-  background: rgba(0, 0, 0, 0.7);
-}
-
-.slideBtnPrev {
-  left: var(--space-2);
-}
-
-.slideBtnNext {
-  right: var(--space-2);
+  background: var(--border);
+  color: var(--surface);
+  transform: translate(-1px, -1px);
 }
 
 .slideDots {
-  position: absolute;
-  bottom: var(--space-2);
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
-  gap: var(--space-2);
-  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
 }
 
 .slideDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.4);
+  width: 14px;
+  height: 4px;
+  border: 1px solid var(--border);
+  background: rgba(26, 26, 26, 0.22);
   cursor: pointer;
   padding: 0;
-  transition: background var(--ease), transform var(--ease);
+  transition: background-color 150ms ease, width 150ms ease, border-color 150ms ease;
 }
 
 .slideDotActive {
   background: var(--accent);
-  transform: scale(1.2);
+  width: 22px;
+  border-color: var(--accent);
 }
 
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
+/* ==========================================================================
+   Lightbox
+   ========================================================================== */
 
 .lightbox {
   position: fixed;
   inset: 0;
   z-index: calc(var(--z-navbar) + 1);
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(15, 13, 10, 0.94);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-5);
-  animation: lightboxFadeIn 0.3s ease-in-out both;
+  animation: lightboxFadeIn 0.25s ease-in-out both;
 }
 
 .lightboxClosing {
-  animation: lightboxFadeOut 0.3s ease-in-out both;
+  animation: lightboxFadeOut 0.25s ease-in-out both;
 }
 
 @keyframes lightboxFadeIn {
@@ -465,17 +531,17 @@
   justify-content: center;
   padding: var(--space-2);
   box-sizing: border-box;
-  animation: lightboxFigureIn 0.3s ease-in-out both;
+  animation: lightboxFigureIn 0.25s ease-in-out both;
 }
 
 .lightboxClosing .lightboxFigure {
-  animation: lightboxFigureOut 0.3s ease-in-out both;
+  animation: lightboxFigureOut 0.25s ease-in-out both;
 }
 
 @keyframes lightboxFigureIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
@@ -495,14 +561,14 @@
 }
 
 .lightboxImage {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 90vw;
+  max-height: 85vh;
   width: auto;
   height: auto;
   object-fit: contain;
-  border-radius: var(--radius-md);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
-  animation: lightboxImageFade 0.3s ease-in-out both;
+  border: 2px solid #ffffff;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), 8px 8px 0 #000000;
+  animation: lightboxImageFade 0.25s ease-in-out both;
 }
 
 @keyframes lightboxImageFade {
@@ -519,26 +585,26 @@
   top: var(--space-4);
   right: var(--space-4);
   z-index: 2;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text);
-  font-size: 1.15rem;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: #1a1a1a;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color var(--ease), border-color var(--ease),
-    transform var(--ease);
+  box-shadow: 3px 3px 0 #000000;
+  transition: background-color var(--ease), border-color var(--ease), transform var(--ease);
 }
 
 .lightboxClose:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.24);
-  transform: scale(1.08);
+  background: var(--accent);
+  border-color: #ffffff;
+  transform: translate(-1px, -1px);
 }
 
 .lightboxBtn {
@@ -546,26 +612,25 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(13, 17, 23, 0.55);
-  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: #1a1a1a;
+  color: #ffffff;
   font-size: 1.6rem;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color var(--ease), border-color var(--ease),
-    transform var(--ease);
+  box-shadow: 3px 3px 0 #000000;
+  transition: background-color var(--ease), border-color var(--ease), transform var(--ease);
 }
 
 .lightboxBtn:hover {
-  background: rgba(13, 17, 23, 0.85);
-  border-color: rgba(255, 255, 255, 0.22);
-  transform: translateY(-50%) scale(1.08);
+  background: var(--accent);
+  border-color: #ffffff;
+  transform: translateY(-50%) translate(-1px, -1px);
 }
 
 .lightboxBtnPrev {
@@ -582,17 +647,80 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: var(--space-1) var(--space-3);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(13, 17, 23, 0.6);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: #1a1a1a;
+  box-shadow: 2px 2px 0 #000000;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
+/* ==========================================================================
+   Responsive & Accessibility
+   ========================================================================== */
+
 @media (max-width: 767.98px) {
+  .portfolioCard,
+  .portfolioCardNormal,
+  .portfolioCardReverse {
+    flex-direction: column !important;
+  }
+
+  .mediaSection,
+  .mediaSectionDesktop,
+  .mediaSectionMobile {
+    width: 100% !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 2px solid var(--border) !important;
+  }
+
+  .portfolioContentContainer,
+  .portfolioContentContainerFull {
+    padding: var(--space-4);
+  }
+
+  .experienceHeader {
+    gap: var(--space-3);
+  }
+
+  .logoPlaceholder {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+  }
+
+  .monogramPlaceholder {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 6px;
+  }
+
+  .logoPlaceholderMonogram {
+    font-size: 1.15rem;
+  }
+
+  .mobileDeviceBezel {
+    height: 310px;
+    aspect-ratio: 9 / 19.5;
+    width: auto;
+    margin: 8px auto;
+  }
+
+  .desktopDeviceFrame {
+    padding: var(--space-3);
+  }
+
+  .portfolioCardTitle {
+    font-size: 1.25rem;
+  }
+
   .lightbox {
     padding: var(--space-3);
   }
@@ -600,14 +728,14 @@
   .lightboxClose {
     top: var(--space-3);
     right: var(--space-3);
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
   }
 
   .lightboxBtn {
-    width: 40px;
-    height: 40px;
-    font-size: 1.4rem;
+    width: 38px;
+    height: 38px;
+    font-size: 1.3rem;
   }
 
   .lightboxBtnPrev {
@@ -619,134 +747,35 @@
   }
 }
 
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .mediaSectionDesktop {
+    width: 42%;
+  }
+
+  .mediaSectionMobile {
+    width: 30%;
+  }
+
+  .portfolioContentContainer,
+  .portfolioContentContainerFull {
+    padding: var(--space-5);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .slideShowWrapper {
-    transition: none;
+    transition: none !important;
   }
 
   .lightbox,
   .lightboxClosing,
   .lightboxFigure,
   .lightboxImage {
-    animation: none;
+    animation: none !important;
   }
 
   .statusDot::after {
-    animation: none;
+    animation: none !important;
     display: none;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .portfolioImageCardHorizontal,
-  .portfolioImageCardHorizontalReverse,
-  .noImageCard,
-  .noImageCardReverse {
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .logoPanel {
-    width: 100%;
-    min-height: 110px;
-    height: auto;
-    padding: var(--space-4);
-    border: 2.5px solid var(--border);
-    box-shadow: 5px 5px 0 var(--border);
-    box-sizing: border-box;
-  }
-
-  .portfolioImageContainerMobile,
-  .portfolioImageContainerHorizontal,
-  .noImagePlaceholder {
-    width: 100%;
-    max-width: 100%;
-    height: 200px;
-    border: 2.5px solid var(--border);
-    box-shadow: 5px 5px 0 var(--border);
-    box-sizing: border-box;
-  }
-
-  .portfolioContentContainerHorizontal,
-  .portfolioContentContainerMobile,
-  .noImageContent {
-    width: 100%;
-    padding: var(--space-4);
-    border: 2.5px solid var(--border);
-    box-shadow: 5px 5px 0 var(--border);
-    box-sizing: border-box;
-  }
-
-  .portfolioCardTitle {
-    font-size: 1.15rem;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023.98px) {
-  .portfolioImageContainerHorizontal {
-    width: 35%;
-  }
-
-  .logoPanel {
-    width: 28%;
-  }
-
-  .portfolioImageContainerMobile {
-    width: 28%;
-  }
-
-  .portfolioContentContainerHorizontal {
-    flex: 1;
-    padding: var(--space-5);
-  }
-
-  .portfolioContentContainerMobile {
-    flex: 1;
-    padding: var(--space-5);
-  }
-
-  .noImagePlaceholder {
-    width: 35%;
-  }
-
-  .noImageContent {
-    flex: 1;
-  }
-}
-
-@media (min-width: 1024px) {
-  .portfolioImageContainerHorizontal {
-    width: 35%;
-  }
-
-  .logoPanel {
-    width: 25%;
-  }
-
-  .portfolioImageContainerMobile {
-    width: 24%;
-  }
-
-  .portfolioContentContainerHorizontal {
-    flex: 1;
-    padding: var(--space-6);
-  }
-
-  .portfolioContentContainerMobile {
-    flex: 1;
-    padding: var(--space-6);
-  }
-
-  .noImagePlaceholder {
-    width: 35%;
-  }
-
-  .noImageContent {
-    flex: 1;
-    padding: var(--space-6);
-  }
-
-  .portfolioCardTitle {
-    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
   }
 }

@@ -1,1 +1,19 @@
-export const colors = { bg: "#0f0d0a", surface: "#c5baa3", surfaceRaised: "#c5baa3", border: "#1a1a1a", borderMuted: "rgba(26, 26, 26, 0.25)", dividerRule: "#4a3f30", text: "#1a1a1a", textMuted: "#4a4d4a", textOnDark: "#c5baa3", accent: "#d92626", accentOrange: "#d9531e", accentYellow: "#ffe600", shadowCard: "8px 8px 0 #000000, 0 16px 40px rgba(0, 0, 0, 0.65)", shadowCardHover: "10px 10px 0 #000000, 0 20px 48px rgba(0, 0, 0, 0.75)", shadowHero: "8px 8px 0 #000000, 0 16px 40px rgba(0, 0, 0, 0.65)" } as const; export type Colors = typeof colors;
+export const colors = {
+  bg: '#141517',
+  surface: '#c5baa3',
+  surfaceRaised: '#c5baa3',
+  border: '#1a1a1a',
+  borderMuted: 'rgba(26, 26, 26, 0.25)',
+  dividerRule: '#4a3f30',
+  text: '#1a1a1a',
+  textMuted: '#4a4d4a',
+  textOnDark: '#c5baa3',
+  accent: '#d92626',
+  accentOrange: '#d9531e',
+  accentYellow: '#ffe600',
+  shadowCard: '8px 8px 0 #000000, 0 16px 40px rgba(0, 0, 0, 0.65)',
+  shadowCardHover: '10px 10px 0 #000000, 0 20px 48px rgba(0, 0, 0, 0.75)',
+  shadowHero: '8px 8px 0 #000000, 0 16px 40px rgba(0, 0, 0, 0.65)',
+} as const;
+
+export type Colors = typeof colors;

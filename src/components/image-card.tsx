@@ -10,11 +10,12 @@ function ImageCard(props: ImageCardProps) {
   const {
     role,
     company,
+    logo,
     dateRange,
     summary,
     achievements,
     technologies,
-    images,
+    images = [],
     layout = 'left',
     autoSlide = true,
     slideInterval = 4000,
@@ -45,6 +46,11 @@ function ImageCard(props: ImageCardProps) {
         : 'screenshot-desktop');
 
   const hasImages = images.length > 0;
+  const isLogoCard = mediaType === 'logo';
+  const isScreenshotCard =
+    (mediaType === 'screenshot-desktop' || mediaType === 'screenshot-mobile') &&
+    hasImages;
+  const isMobileScreenshot = mediaType === 'screenshot-mobile';
 
   const goToSlide = useCallback(
     (index: number, manual = false) => {
@@ -203,29 +209,61 @@ function ImageCard(props: ImageCardProps) {
     }
   };
 
-  const cardClass =
-    layout === 'right'
-      ? classes.portfolioImageCardHorizontalReverse
-      : classes.portfolioImageCardHorizontal;
-
   const isCurrentRole =
     props.isCurrent ??
     (dateRange.toLowerCase().includes('present') || dateRange.toLowerCase().includes('current'));
 
-  const renderContent = () => (
-    <>
-      <h3 className={classes.portfolioCardTitle}>{role}</h3>
-      <p className={classes.portfolioCardMeta}>
-        <span>
-          {company} · {dateRange}
-        </span>
-        {isCurrentRole && (
-          <span className={classes.currentBadge} title='Currently working here'>
-            <span className={classes.statusDot} aria-hidden='true' />
-            <span>Current</span>
+  const renderCurrentBadge = () => (
+    <span className={classes.currentBadge} title='Currently active post'>
+      <span className={classes.statusDot} aria-hidden='true' />
+      <span>Current</span>
+    </span>
+  );
+
+  const effectiveLogoSrc = logo ?? (isLogoCard ? images[0] : undefined);
+  const showLogoHeader = Boolean(effectiveLogoSrc || isLogoCard);
+
+  const renderLogoPlaceholder = () => {
+    if (effectiveLogoSrc && !logoFailed) {
+      return (
+        <div className={classes.logoPlaceholder}>
+          <img
+            src={effectiveLogoSrc}
+            alt={`${company} logo`}
+            className={classes.logoPlaceholderImg}
+            onError={() => setLogoFailed(true)}
+          />
+        </div>
+      );
+    }
+
+    if (isLogoCard) {
+      return (
+        <div className={classes.monogramPlaceholder}>
+          <span className={classes.logoPlaceholderMonogram}>
+            {company.slice(0, 4)}
           </span>
-        )}
-      </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const renderContentBody = () => (
+    <>
+      <div className={classes.experienceHeader}>
+        {showLogoHeader && renderLogoPlaceholder()}
+        <div className={classes.experienceHeaderInfo}>
+          <h3 className={classes.portfolioCardTitle}>{role}</h3>
+          <div className={classes.portfolioCardMeta}>
+            <span className={classes.metaCompanyDate}>
+              {company} · {dateRange}
+            </span>
+            {isCurrentRole && renderCurrentBadge()}
+          </div>
+        </div>
+      </div>
       {summary && <p className={classes.portfolioCardSummary}>{summary}</p>}
       {achievements && achievements.length > 0 && (
         <ul className={classes.achievementList}>
@@ -256,32 +294,55 @@ function ImageCard(props: ImageCardProps) {
       onTouchEnd={handleTouchEnd}
       tabIndex={0}
       role='region'
-      aria-label={`${role} screenshot slideshow`}
+      aria-label={`${role} screenshot gallery`}
       aria-roledescription='carousel'
     >
-      <div className={classes.slideShowContainer}>
+      <div
+        className={`${classes.slideShowContainer} ${
+          isMobileScreenshot ? classes.slideShowContainerMobile : ''
+        }`}
+      >
         <div
-          className={classes.slideShowWrapper}
+          className={`${classes.slideShowWrapper} ${
+            isMobileScreenshot ? classes.slideShowWrapperMobile : ''
+          }`}
           style={{
             transform: `translateX(-${currentImageIndex * 100}%)`,
           }}
         >
           {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              className={classes.portfolioCardImage}
-              alt={`${role} at ${company} - screenshot ${index + 1}`}
-              loading='lazy'
-              decoding='async'
-              onClick={() => openLightbox(index)}
-            />
+            <div key={index} className={classes.slideItem}>
+              {isMobileScreenshot ? (
+                <div className={classes.mobileDeviceBezel}>
+                  <img
+                    src={image}
+                    className={classes.portfolioCardImageMobile}
+                    alt={`${role} at ${company} - exhibit ${index + 1}`}
+                    loading='lazy'
+                    decoding='async'
+                    onClick={() => openLightbox(index)}
+                  />
+                </div>
+              ) : (
+                <div className={classes.desktopDeviceFrame}>
+                  <img
+                    src={image}
+                    className={classes.portfolioCardImage}
+                    alt={`${role} at ${company} - exhibit ${index + 1}`}
+                    loading='lazy'
+                    decoding='async'
+                    onClick={() => openLightbox(index)}
+                  />
+                  <span className={classes.enlargeHint}>CLICK TO EXPAND</span>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>
 
       {images.length > 1 && (
-        <>
+        <div className={classes.carouselFooterControls}>
           <button
             type='button'
             className={`${classes.slideBtn} ${classes.slideBtnPrev}`}
@@ -290,6 +351,21 @@ function ImageCard(props: ImageCardProps) {
           >
             ‹
           </button>
+          <div className={classes.slideDots} role='tablist'>
+            {images.map((_, index) => (
+              <button
+                key={index}
+                type='button'
+                role='tab'
+                className={`${classes.slideDot} ${
+                  index === currentImageIndex ? classes.slideDotActive : ''
+                }`}
+                onClick={() => goToSlide(index, true)}
+                aria-label={`Go to slide ${index + 1}`}
+                aria-selected={index === currentImageIndex}
+              />
+            ))}
+          </div>
           <button
             type='button'
             className={`${classes.slideBtn} ${classes.slideBtnNext}`}
@@ -298,23 +374,7 @@ function ImageCard(props: ImageCardProps) {
           >
             ›
           </button>
-          <div className={classes.slideDots} role='tablist'>
-            {images.map((_, index) => (
-              <button
-                key={index}
-                type='button'
-                role='tab'
-                className={`${classes.slideDot} ${index === currentImageIndex ? classes.slideDotActive : ''}`}
-                onClick={() => goToSlide(index, true)}
-                aria-label={`Go to slide ${index + 1}`}
-                aria-selected={index === currentImageIndex}
-              />
-            ))}
-          </div>
-          <div className={classes.srOnly} aria-live='polite'>
-            Slide {currentImageIndex + 1} of {images.length}
-          </div>
-        </>
+        </div>
       )}
     </div>
   );
@@ -327,7 +387,7 @@ function ImageCard(props: ImageCardProps) {
         className={`${classes.lightbox} ${lightboxClosing ? classes.lightboxClosing : ''}`}
         role='dialog'
         aria-modal='true'
-        aria-label={`${role} - screenshot viewer`}
+        aria-label={`${role} - exhibit viewer`}
         onClick={(e) => {
           if (e.target === e.currentTarget) closeLightbox();
         }}
@@ -337,7 +397,7 @@ function ImageCard(props: ImageCardProps) {
           ref={lightboxCloseRef}
           className={classes.lightboxClose}
           onClick={closeLightbox}
-          aria-label='Close image viewer'
+          aria-label='Close exhibit viewer'
         >
           ×
         </button>
@@ -351,7 +411,7 @@ function ImageCard(props: ImageCardProps) {
             key={image}
             className={classes.lightboxImage}
             src={image}
-            alt={`${role} at ${company} - screenshot ${currentImageIndex + 1}`}
+            alt={`${role} at ${company} - exhibit ${currentImageIndex + 1}`}
           />
         </figure>
         {images.length > 1 && (
@@ -360,7 +420,7 @@ function ImageCard(props: ImageCardProps) {
               type='button'
               className={`${classes.lightboxBtn} ${classes.lightboxBtnPrev}`}
               onClick={() => goPrev(true)}
-              aria-label='Previous image'
+              aria-label='Previous exhibit'
             >
               ‹
             </button>
@@ -368,12 +428,12 @@ function ImageCard(props: ImageCardProps) {
               type='button'
               className={`${classes.lightboxBtn} ${classes.lightboxBtnNext}`}
               onClick={() => goNext(true)}
-              aria-label='Next image'
+              aria-label='Next exhibit'
             >
               ›
             </button>
             <div className={classes.lightboxCounter} aria-live='polite'>
-              {currentImageIndex + 1} / {images.length}
+              EXHIBIT {currentImageIndex + 1} OF {images.length}
             </div>
           </>
         )}
@@ -381,55 +441,38 @@ function ImageCard(props: ImageCardProps) {
     );
   };
 
-  const renderLogoPanel = () => {
-    const logoSrc = images[0];
-    return (
-      <div className={classes.logoPanel}>
-        {!logoFailed && logoSrc ? (
-          <img
-            src={logoSrc}
-            alt={company}
-            className={classes.logoImage}
-            loading='lazy'
-            decoding='async'
-            onError={() => setLogoFailed(true)}
-          />
-        ) : (
-          <span className={classes.logoMonogram}>{company}</span>
-        )}
-      </div>
-    );
-  };
-
-  const renderMediaColumn = () => {
-    if (mediaType === 'none') {
-      return null;
-    }
-
-    if (mediaType === 'logo') {
-      return renderLogoPanel();
-    }
-
-    if (!hasImages) {
-      return null;
-    }
-
-    const containerClass =
-      mediaType === 'screenshot-mobile'
-        ? classes.portfolioImageContainerMobile
-        : classes.portfolioImageContainerHorizontal;
-
-    return <div className={containerClass}>{renderSlideshow()}</div>;
-  };
-
   return (
     <>
       <Reveal>
-        <article className={`${cardClass} ${classes.cardSurface}`}>
-          {renderMediaColumn()}
-          <div className={classes.portfolioContentContainer}>
-            {renderContent()}
+        <article
+          className={`${classes.portfolioCard} ${
+            !isScreenshotCard
+              ? classes.portfolioCardFull
+              : layout === 'right'
+                ? classes.portfolioCardReverse
+                : classes.portfolioCardNormal
+          }`}
+        >
+          <div
+            className={
+              isScreenshotCard
+                ? classes.portfolioContentContainer
+                : classes.portfolioContentContainerFull
+            }
+          >
+            {renderContentBody()}
           </div>
+          {isScreenshotCard && (
+            <div
+              className={`${classes.mediaSection} ${
+                isMobileScreenshot
+                  ? classes.mediaSectionMobile
+                  : classes.mediaSectionDesktop
+              }`}
+            >
+              {renderSlideshow()}
+            </div>
+          )}
         </article>
       </Reveal>
       {renderLightbox()}

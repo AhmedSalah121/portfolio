@@ -7,7 +7,7 @@
   --z-navbar: 1100;
 
   /* Vintage Newspaper / Neo-Brutalist Zine Tokens */
-  --bg: #0f0d0a; /* Dark brown-black base */
+  --bg: #141517; /* Sleek neutral dark graphite slate base */
   
   --surface: #c5baa3; /* Darker warm vintage newsprint paper page */
   --surface-raised: #c5baa3; /* Matching dark warm cream paper card background */
@@ -59,7 +59,7 @@
   color-scheme: dark light;
   color: var(--text);
   background-color: var(--bg);
-  background-image: radial-gradient(circle at 50% 30%, #1c1712 0%, #16120d 50%, #0f0d0a 100%);
+  background-image: radial-gradient(circle at 50% 20%, #26282d 0%, #1c1d21 50%, #121315 100%);
   background-attachment: fixed;
 
   font-synthesis: none;
@@ -70,9 +70,9 @@
   scroll-behavior: smooth;
 }
 
-/* Global Sharp Edges Enforcement */
+/* Global Sharp Edges Enforcement (Defaults to 0, allows explicit component radius) */
 *, *::before, *::after {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 html {
@@ -87,7 +87,7 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   background-color: var(--bg);
-  background-image: radial-gradient(circle at 50% 30%, #1c1712 0%, #16120d 50%, #0f0d0a 100%);
+  background-image: radial-gradient(circle at 50% 20%, #26282d 0%, #1c1d21 50%, #121315 100%);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-serif);
