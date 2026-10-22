@@ -1,112 +1,353 @@
 .bannerContainer {
   position: relative;
   width: 100%;
-  margin: var(--space-3) 0;
-  background: var(--surface-raised);
+  margin: var(--space-4) 0 var(--space-6);
+  background-color: var(--surface-raised);
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.02) 1px,
+    transparent 1px,
+    transparent 4px
+  );
   border: 2.5px solid var(--border);
+  box-shadow: 6px 6px 0 #000000;
+  display: flex;
+  align-items: stretch;
+  height: 52px;
   overflow: hidden;
-  height: 48px;
-  box-shadow: 4px 4px 0 var(--border);
+  box-sizing: border-box;
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-.bannerContent {
-  width: 100%;
-  height: 100%;
-  display: flex;
+.bannerContainer:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 8px 8px 0 #000000;
+}
+
+/* Fixed Editorial Dispatch Lead Badge */
+.leadBadge {
+  display: inline-flex;
   align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  background-color: var(--border);
+  color: var(--surface);
+  border-right: 2.5px solid var(--border);
+  flex-shrink: 0;
+  z-index: 2;
+  user-select: none;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background-color 150ms ease;
+}
+
+.bannerContainer:hover .leadBadge {
+  background-color: #121212;
+}
+
+/* Pulsing Status Beacon */
+.pulseBeacon {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
 }
 
-.scrollingText {
+.beaconCore {
+  width: 7px;
+  height: 7px;
+  background-color: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.9);
+  display: block;
+}
+
+.beaconRing {
+  position: absolute;
+  inset: -3px;
+  border: 1.5px solid #22c55e;
+  opacity: 0.8;
+  animation: beaconPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes beaconPing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  75%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.badgeLabel {
+  color: var(--surface);
+  font-weight: 800;
+}
+
+.badgeSlash {
+  color: var(--accent);
+  font-weight: 900;
+  font-size: 0.85rem;
+}
+
+/* Ticker Stream Window with Feathered Edges */
+.tickerWindow {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 24px,
+    black calc(100% - 24px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 24px,
+    black calc(100% - 24px),
+    transparent 100%
+  );
+}
+
+/* Infinite Marquee Track */
+.tickerTrack {
+  display: flex;
+  align-items: center;
+  gap: 2.75rem;
+  padding-right: 2.75rem;
+  flex-shrink: 0;
   white-space: nowrap;
-  animation: smoothScroll 50s linear infinite;
-  gap: 6rem;
-  transform: translateZ(0);
+  animation: tickerScroll 42s linear infinite;
   will-change: transform;
 }
 
-.textItem {
-  color: var(--text);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  flex-shrink: 0;
-  opacity: 0.9;
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.textItem:hover {
-  opacity: 1;
-}
-
-@keyframes smoothScroll {
+@keyframes tickerScroll {
   0% {
-    transform: translateX(0) translateZ(0);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%) translateZ(0);
+    transform: translateX(-100%);
   }
 }
 
-.bannerContainer:hover .scrollingText,
-.bannerContainer:focus-within .scrollingText {
+/* Pause on hover or focus */
+.bannerContainer:hover .tickerTrack,
+.bannerContainer:focus-within .tickerTrack {
   animation-play-state: paused;
 }
 
-@media (max-width: 639.98px) {
-  .bannerContainer {
-    height: 38px;
-    border-radius: var(--radius-md);
-  }
-
-  .textItem {
-    font-size: 0.8rem;
-    letter-spacing: 0.06em;
-  }
-
-  .scrollingText {
-    animation-duration: 40s;
-    gap: 4rem;
-  }
+/* Individual Announcement Items */
+.announcementItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: default;
 }
 
+.categoryTag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent-orange);
+  text-transform: uppercase;
+  background: rgba(217, 83, 30, 0.08);
+  border: 1px solid rgba(217, 83, 30, 0.4);
+  padding: 1px 6px;
+  line-height: 1.2;
+}
+
+.itemText {
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  transition: color 150ms ease;
+}
+
+.announcementItem:hover .itemText {
+  color: var(--accent);
+}
+
+/* Status Badges */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border: 1.5px solid var(--border);
+  box-shadow: 2px 2px 0 var(--border);
+  line-height: 1.2;
+}
+
+.badgeYellow {
+  background: var(--accent-yellow);
+  color: #1a1a1a;
+}
+
+.badgeAccent {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.statusDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: #16a34a;
+  transform: rotate(45deg);
+}
+
+/* Editorial Separator Glyphs */
+.delimiter {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin-left: 10px;
+  user-select: none;
+  opacity: 0.85;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.announcementItem:hover .delimiter {
+  opacity: 1;
+  transform: rotate(45deg);
+}
+
+/* Tablet Breakpoints */
 @media (min-width: 640px) and (max-width: 1023.98px) {
   .bannerContainer {
-    height: 42px;
+    height: 48px;
+    margin: var(--space-3) 0 var(--space-5);
   }
 
-  .textItem {
-    font-size: 0.85rem;
+  .leadBadge {
+    padding: 0 14px;
+    font-size: 0.72rem;
+    gap: 8px;
   }
 
-  .scrollingText {
-    animation-duration: 45s;
-    gap: 5rem;
+  .itemText {
+    font-size: 0.8rem;
+  }
+
+  .tickerTrack {
+    gap: 2.25rem;
+    padding-right: 2.25rem;
+    animation-duration: 38s;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .scrollingText {
-    animation: none;
-  }
-}
-
-@media (min-width: 1024px) {
+/* Mobile Breakpoints */
+@media (max-width: 639.98px) {
   .bannerContainer {
-    height: 50px;
+    height: 42px;
+    margin: var(--space-2) 0 var(--space-4);
+    box-shadow: 4px 4px 0 #000000;
   }
 
-  .textItem {
-    font-size: 1rem;
+  .bannerContainer:hover {
+    transform: none;
+    box-shadow: 4px 4px 0 #000000;
+  }
+
+  .leadBadge {
+    padding: 0 10px;
+    font-size: 0.68rem;
+    gap: 6px;
     letter-spacing: 0.1em;
   }
 
-  .scrollingText {
-    animation-duration: 60s;
-    gap: 8rem;
+  .badgeSlash {
+    display: none;
+  }
+
+  .categoryTag {
+    font-size: 0.62rem;
+    padding: 1px 4px;
+  }
+
+  .itemText {
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+  }
+
+  .statusBadge {
+    font-size: 0.65rem;
+    padding: 1px 6px;
+  }
+
+  .delimiter {
+    font-size: 0.75rem;
+    margin-left: 6px;
+  }
+
+  .tickerTrack {
+    gap: 1.75rem;
+    padding-right: 1.75rem;
+    animation-duration: 32s;
+  }
+
+  .tickerWindow {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 14px,
+      black calc(100% - 14px),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 14px,
+      black calc(100% - 14px),
+      transparent 100%
+    );
+  }
+}
+
+/* Accessibility & Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .beaconRing {
+    animation: none;
+    opacity: 0;
+  }
+
+  .tickerTrack {
+    animation: none;
+  }
+
+  .tickerWindow {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+    scrollbar-width: thin;
+  }
+
+  .tickerTrack:last-child {
+    display: none;
   }
 }
